@@ -1,5 +1,5 @@
 baseurl: ""
-url: ""
+url: "https://beanstudio.net"
 
 # Build settings
 markdown: kramdown
@@ -7,7 +7,7 @@ permalink: pretty
 plugins:
   - jekyll-paginate
   - jekyll-sitemap
-  - jekyll/tagging
+  - jekyll-tagging
 
 paginate: 5
 paginate_path: "/page/:num"
