@@ -10,7 +10,7 @@ description: 사소한 기록을 적어두는 블로그 by bean.
 author:
   name: 차용빈
   image: 01.jpg
-  say-hello: Hello, I’m <strong>Cha Yongbin</strong>
+  say-hello: 안녕하세요. <strong>차용빈</strong>입니다.
   bio: <strong>개발</strong>, <strong>디자인</strong>, <strong>건축</strong>에 관심이 많고, 주로 개발하면서 알게된 내용들을 공유합니다. 개발을 통해 조금 더 <strong>편한 세상</strong>을 만드는 것이 제 목표입니다. 
 
 
