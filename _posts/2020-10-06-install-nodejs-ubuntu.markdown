@@ -3,7 +3,7 @@ layout: post
 title:  우분투에서 node.js 설치
 date:   2020-10-06 16:00:00 +0900
 image:  ubuntu+node.jpg
-tags:   서버 nodejs
+tags:   server nodejs
 ---
 
 우분투 환경을 자주 사용하는데, 매번 새로운 환경에서 node.js 를 설치할 때 마다.. 찾아보는 것 같습니다.
