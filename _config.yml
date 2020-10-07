@@ -3,12 +3,13 @@ name: "Bean Studio's Blog"
 title: "Bean Studio's Blog"
 description: " 개발을 통해 조금 더 편한 세상을..."
 logo: 'assets/images/logo.svg'
-favicon: 'favicon.ico'
-baseurl: 
+favicon: 'assets/images/favicon.ico'
+baseurl: 'https://dr-coton.github.io'
 google_analytics: ''
-disqus: ''
+disqus: 'dr-coton'
 include: ["_pages"]
 permalink: /:title/
+# url: 'https://beanstudio.net'
 
 # Authors
 authors:
