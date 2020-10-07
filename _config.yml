@@ -10,6 +10,7 @@ google_analytics: 'UA-176302380-1'
 disqus: 'dr-coton'
 include: ["_pages"]
 permalink: /:title/
+url: https://dr-coton.github.io
 # url: 'https://beanstudio.net'
 
 # Authors
