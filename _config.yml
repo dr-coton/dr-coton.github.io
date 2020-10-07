@@ -6,7 +6,7 @@ logo: 'assets/images/logo.svg'
 favicon: 'assets/images/favicon.ico'
 baseurl: 'https://dr-coton.github.io'
 # basurl: 
-google_analytics: ''
+google_analytics: 'UA-176302380-1'
 disqus: 'dr-coton'
 include: ["_pages"]
 permalink: /:title/
@@ -55,7 +55,7 @@ kramdown:
 
 # Adsense (change to "enabled" to activate, also your client id and ad slot. Create a new ad unit from your Adsense account to get the slot.)
 adsense: "disabled"
-adsense-data-ad-client: ""
+adsense-data-ad-client: "ca-pub-5894704165968081"
 adsense-data-ad-slot: ""
 
 # Lazy Images ("enabled" or "disabled")
