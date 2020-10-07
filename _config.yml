@@ -4,7 +4,8 @@ title: "Bean Studio's Blog"
 description: " 개발을 통해 조금 더 편한 세상을..."
 logo: 'assets/images/logo.svg'
 favicon: 'assets/images/favicon.ico'
-baseurl: 'https://dr-coton.github.io'
+# baseurl: 'https://dr-coton.github.io'
+basurl: 
 google_analytics: ''
 disqus: 'dr-coton'
 include: ["_pages"]
@@ -58,6 +59,6 @@ adsense-data-ad-client: ""
 adsense-data-ad-slot: ""
 
 # Lazy Images ("enabled" or "disabled")
-lazyimages: "disabled"
+lazyimages: "enabled"
 
 exclude: [changelog.md, LICENSE.txt, README.md, Gemfile, Gemfile.lock]
