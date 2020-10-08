@@ -10,3 +10,6 @@ main branch에 Push 하면 자동 배포
 ```bash 
 ./run.sh
 ```
+
+http://code.orcacorp.org:5000/ 로 접속
+또는 http://127.0.0.1:5000/ 로 접속
