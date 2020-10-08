@@ -3,7 +3,7 @@ layout: post
 title:  AWS Lambda 와 AWS SNS 로 문자 서비스 API 만들기
 author: teddy
 categories: [ aws, nodejs, serverless ]
-date:   2020-10-08 14:00:00 +0900
+date:   2020-10-07 14:00:00 +0900
 image:  assets/images/02/0.png
 featured: true
 ---

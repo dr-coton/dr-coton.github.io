@@ -1,0 +1,69 @@
+# Site
+name: "Bean Studio's Blog"
+title: "Bean Studio's Blog"
+description: " 개발을 통해 조금 더 편한 세상을..."
+logo: 'assets/images/logo.svg'
+favicon: 'assets/images/favicon.ico'
+# baseurl: 'https://dr-coton.github.io'
+baseurl: 
+google_analytics: 'UA-176302380-1'
+disqus: 'dr-coton'
+include: ["_pages"]
+permalink: /:title/
+url: https://dr-coton.github.io
+# url: 'https://beanstudio.net'
+
+# Authors
+authors:
+  teddy:
+    name: teddy
+    display_name: 차용빈
+    gravatar: 1055a89a002f2f535804eca6ab733b36
+    email: dr.coton@gmail.com
+    web: https://blog.beanstudio.net/
+    twitter: https://twitter.com/GHh4prl3f9phgKF
+    description: "개발, 디자인, 건축에 관심이 많고, 주로 개발하면서 알게된 내용들을 공유합니다. 개발을 통해 조금 더 편한 세상을 만드는 것이 제 목표입니다."
+
+# Plugins
+plugins:
+  - jekyll-paginate
+  - jekyll-sitemap
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-archives
+    
+# Archives
+jekyll-archives:
+  enabled:
+    - categories
+  layout: archive
+  permalinks:
+    category: '/category/:name/'
+    
+# Pagination 
+paginate: 6
+paginate_path: /page:num/
+    
+# Other
+markdown: kramdown
+
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    block:
+      line_numbers: true
+
+# Adsense (change to "enabled" to activate, also your client id and ad slot. Create a new ad unit from your Adsense account to get the slot.)
+adsense: "disabled"
+adsense-data-ad-client: "ca-pub-5894704165968081"
+adsense-data-ad-slot: ""
+
+# Lazy Images ("enabled" or "disabled")
+lazyimages: "enabled"
+
+port: 5000
+
+host: 0.0.0.0
+
+exclude: [changelog.md, LICENSE.txt, README.md, Gemfile, Gemfile.lock, vendor]
