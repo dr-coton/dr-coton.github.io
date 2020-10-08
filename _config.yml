@@ -4,8 +4,8 @@ title: "Bean Studio's Blog"
 description: " 개발을 통해 조금 더 편한 세상을..."
 logo: 'assets/images/logo.svg'
 favicon: 'assets/images/favicon.ico'
-# baseurl: 'https://dr-coton.github.io'
-baseurl: 
+baseurl: 'https://dr-coton.github.io'
+# baseurl: 
 google_analytics: 'UA-176302380-1'
 disqus: 'dr-coton'
 include: ["_pages"]
