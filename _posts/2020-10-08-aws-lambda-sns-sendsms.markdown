@@ -149,13 +149,13 @@ exports.handler = (event, context, callback) => {
 
 ![]({{ site.baseurl }}/assets/images/02/10.png)
 
-##### 7. "테스트" 버튼을 누르면 아래와 같이 성공하고 문자 메시지가 정상적으로 도착할 것입니다. 
+##### 7. "테스트" 버튼을 누르면 아래와 같이 성공하고 문자 메시지가 왔는지 확인 해보세요.
 
 ![]({{ site.baseurl }}/assets/images/02/11.png)
 
-성공하면 아래와 같은 것이 보이면서 문자가 온 것을 확인 할 수 있습니다. 
-
 ![]({{ site.baseurl }}/assets/images/02/12.png)
+
+<br>
 
 이렇게 AWS 기능 2개를 이용하여 문자 보내는 API를 만들어 보았습니다. 
 
