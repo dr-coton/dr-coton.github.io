@@ -1,0 +1,12 @@
+Use the built-in image_gen tool (imagegen skill) to make ONE pixel-art character model sheet of this cat.
+
+Character: @CAT@
+The attached image is the cat's current sprite sheet. Keep the character recognizable as the same cat (coat colors, stripe pattern, white markings, eye color, body type), but redraw it cleanly and consistently: cute chibi proportions, side view.
+
+Layout: one 3:2 landscape image, exactly 3 columns x 2 rows of equal cells. Background is fully transparent everywhere: no grid lines, no labels, no text, no floor shadows, no effects (no hearts, no Zzz). One cat per cell, centered, feet on the same baseline near the bottom of the cell, generous empty margin around every cat so none touches another or a cell edge. Every cat faces RIGHT.
+Row 1: (1) sitting upright, calm, eyes open, tail wrapped beside the front paws. (2) standing on all four paws, relaxed, tail curved up. (3) loaf pose (lying down with paws tucked under the chest, like a bread loaf), eyes open.
+Row 2: (4) sleeping curled into a round ball, eyes closed, tail wrapped around. (5) running at full stretch, front legs reaching forward, back legs pushing back. (6) sitting and yawning wide: eyes shut, mouth open showing the pink tongue.
+
+Style: low-resolution pixel art with hard square pixels, each cat about 48 art-pixels long, no anti-aliasing, no gradients, no dithering, a limited palette of about 14 soft muted colors that suit a watercolor blog, a 1-pixel warm dark-brown outline (never pure black). All six cats must share exactly the same pixel size, head size, palette, and markings.
+
+Copy the generated image file to @OUT@ exactly as generated: do not edit, recolor, resize, crop, or post-process it in any way. Do nothing else.

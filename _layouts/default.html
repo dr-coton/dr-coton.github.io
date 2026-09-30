@@ -1,4 +1,5 @@
 <!doctype html>
+{% assign v = site.time | date: '%s' %}
 <html lang="{{ site.lang }}">
   <head>
     <meta charset="utf-8">
@@ -15,7 +16,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ '/assets/style.css' | relative_url }}">
+    <link rel="stylesheet" href="{{ '/assets/style.css' | relative_url }}?v={{ v }}">
   </head>
   <body>
     <a class="skip-link" href="#main">본문으로 건너뛰기</a>
@@ -36,10 +37,10 @@
       <span>{{ site.author | escape }}</span>
     </footer>
     <div class="cats" aria-hidden="true">
-      <div class="cat" data-sprite="{{ '/assets/cats/jango.png' | relative_url }}" data-speed="18" data-sleepy="0.35" data-energy="0.25" data-jump="36" data-reach="60" data-fav="fridge" data-stay="1" data-says="그르릉…|냐앙~|여기가 좋아|안 내려갈래"></div>
-      <div class="cat" data-sprite="{{ '/assets/cats/deuri.png' | relative_url }}" data-speed="30" data-sleepy="0.2" data-energy="0.7" data-jump="80" data-reach="110" data-fav="p4" data-hider="1" data-says="야옹|…|빼꼼|다녀왔어?"></div>
+      <div class="cat" data-sprite="{{ '/assets/cats/jango.png' | relative_url }}?v={{ v }}" data-speed="22" data-sleepy="0.35" data-energy="0.25" data-jump="36" data-reach="60" data-fav="fridge" data-stay="1" data-says="그르릉…|냐앙~|여기가 좋아|안 내려갈래"></div>
+      <div class="cat" data-sprite="{{ '/assets/cats/deuri.png' | relative_url }}?v={{ v }}" data-speed="30" data-sleepy="0.2" data-energy="0.7" data-jump="80" data-reach="110" data-fav="p4" data-hider="1" data-says="야옹|…|빼꼼|다녀왔어?"></div>
     </div>
     <script src="{{ '/assets/soft-nav.js' | relative_url }}" defer></script>
-    <script src="{{ '/assets/cats.js' | relative_url }}" defer></script>
+    <script src="{{ '/assets/cats.js' | relative_url }}?v={{ v }}" defer></script>
   </body>
 </html>

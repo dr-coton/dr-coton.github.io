@@ -1,7 +1,9 @@
 """Run after `bundle exec jekyll build`: python3 tests/check_site.py."""
+import ast
 from html.parser import HTMLParser
 from pathlib import Path
 import re
+import struct
 from urllib.parse import unquote, urlsplit
 
 
@@ -49,4 +51,20 @@ for path in pages:
             target /= "index.html"
         assert target.is_file(), f"Broken local link in {path}: {link}"
 
-print(f"OK: {len(sources)} writings, {len(pages)} pages, local links and date-free publishing.")
+# 고양이 스프라이트: cats.js 의 행 순서 = scripts/cat_sprites.py 의 행 순서, 그림 크기 = 칸 크기 x 열·행 수
+sprite_consts = {}
+for node in ast.parse((root / "scripts" / "cat_sprites.py").read_text()).body:
+    if isinstance(node, ast.Assign):
+        names = node.targets[0].elts if isinstance(node.targets[0], ast.Tuple) else node.targets
+        values = node.value.elts if isinstance(node.value, ast.Tuple) else [node.value]
+        for name, value in zip(names, values):
+            if isinstance(name, ast.Name) and name.id in ("CW", "CH", "COLS", "SHEETS"):
+                sprite_consts[name.id] = ast.literal_eval(value)
+rows = [r for names in sprite_consts["SHEETS"].values() for r in names]
+js_rows = re.search(r"const ROW = \{([^}]*)\}", (root / "assets" / "cats.js").read_text()).group(1)
+assert [k.strip().split(":")[0] for k in js_rows.split(",")] == rows, "cats.js ROW order differs from cat_sprites.py"
+for cat in ("jango", "deuri"):
+    width, height = struct.unpack(">II", (root / "assets" / "cats" / f"{cat}.png").read_bytes()[16:24])
+    assert (width, height) == (sprite_consts["CW"] * sprite_consts["COLS"], sprite_consts["CH"] * len(rows)), f"{cat}.png is {width}x{height}"
+
+print(f"OK: {len(sources)} writings, {len(pages)} pages, local links and date-free publishing, cat sprites.")

@@ -1,0 +1,13 @@
+Use the built-in image_gen tool (imagegen skill) to make ONE pixel-art animation sprite sheet for this cat.
+
+Character: @CAT@
+The attached image is the official model sheet of this cat. Every frame must match it exactly: same pixel size, same sprite size, same head size and body proportions, same palette, same 1-pixel warm dark-brown outline, same stripes and white markings. Only the poses change.
+
+Layout: one 3:2 landscape image, exactly 6 columns x 4 rows of equal cells, every cell holding exactly one cat. Background is fully transparent everywhere: no grid lines, no labels, no numbers, no text, no floor shadows, no effects (no hearts, no Zzz, no motion lines, no dust). Each cat is centered in its cell with its feet on the same baseline near the bottom of the cell, with a generous empty margin so no cat touches another cat or a cell edge. Every cat faces RIGHT (side view) unless a frame says otherwise.
+Each row is one animation read left to right. Neighbouring frames differ only slightly so the row plays as a smooth animation; the cat stays in the same spot in its cell and keeps exactly the same size in every frame. The very first cell (row 1, column 1) is always the calm upright sitting pose from the model sheet, at exactly the same size.
+
+@ROWS@
+
+Style: low-resolution pixel art with hard square pixels, identical to the model sheet (each cat about 48 art-pixels long), no anti-aliasing, no gradients, no dithering.
+
+Copy the generated image file to @OUT@ exactly as generated: do not edit, recolor, resize, crop, or post-process it in any way. Do nothing else.

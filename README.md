@@ -88,16 +88,26 @@ sips -s format jpeg -s formatOptions 85 -Z 1200 ~/Downloads/그림.png --out ass
 ## 고양이: 장고와 드리
 
 - 뚱뚱한 쪽이 장고(`assets/cats/jango.png`), 평범한 쪽이 드리(`assets/cats/deuri.png`)입니다. 이름은 각각 냉장고 위에서 안 내려온 것, 세탁기(laundry) 뒤에서 안 나온 것에서 왔습니다. 소개는 `/cats/` 페이지(`cats.html`)에 있습니다.
-- 어느 페이지에서든 화면 아래를 돌아다닙니다. 걷고, 달리고, 점프하고, 앉아서 눈을 깜박이거나 발을 핥고, 자고, 기지개를 켜고, 서로 쫓아다닙니다. 행동은 무작위입니다.
+- 어느 페이지에서든 화면 아래를 돌아다닙니다. 대부분은 느긋하게 걷고, 냄새를 맡고, 앉아서 두리번거리거나 하품하고, 그루밍하고, 식빵 자세로 졸고, 꾹꾹이를 한 뒤 웅크려 잡니다. 가끔 달리고, 점프하고, 엉덩이를 흔들다 덮치고, 서로 쫓아다닙니다. 행동은 무작위이고 성격(아래 `data-*`)에 따라 비율이 다릅니다.
+- 자세는 서기 ↔ 앉기 ↔ 식빵 ↔ 잠 순서로만 바뀌고 사이 동작(앉기, 엎드리기, 눈 감기)을 거칩니다. 잠에서 깨면 하품하고 기지개를 켠 뒤 일어납니다. 걷기·달리기는 이동한 거리만큼 프레임을 넘겨서 발이 미끄러지지 않습니다.
 - 페이지를 옮겨도 이어서 움직입니다. 같은 사이트 안의 링크는 `assets/soft-nav.js`가 헤더·본문·푸터만 바꾸기 때문입니다. 새로 불러오는 스크립트는 `filter.js`처럼 전역 변수를 만들지 않아야 합니다.
-- 인터랙션: 고양이를 누르면 쓰다듬기(하트와 한마디), 마우스를 화면 아래에 가져다 대면 달려와서 툭툭 칩니다. `/cats/`에서는 바닥이나 선반을 누르면 간식이 떨어지고 가까운 고양이가 먹으러 옵니다.
+- 인터랙션: 고양이를 누르면 쓰다듬기(하트와 한마디, 자는 중이면 귀만 쫑긋), 마우스를 화면 아래에 가져다 대면 달려와서 덮칩니다. `/cats/`에서는 바닥이나 선반을 누르면 간식이 떨어지고 가까운 고양이가 먹으러 옵니다.
 - `/cats/`의 방은 `cats.html`의 SVG 그림이고, 세탁기만 고양이보다 앞 층에 그려서 드리가 뒤로 숨을 수 있습니다. 고양이가 딛는 발판은 `.room-cats`의 `data-platforms`(가로 범위와 바닥에서의 높이)로 정하고, 그림을 바꾸면 이 좌표도 함께 고쳐야 합니다.
-- 스프라이트는 56px 프레임이 4열(프레임) × 6행입니다. 행 순서는 걷기, 앉기, 잠자기, 달리기, 점프, 기지개·놀기입니다.
-- 움직임은 `assets/cats.js`, 스타일은 `assets/style.css`의 `.cat`, 마크업은 `_layouts/default.html`에 있습니다. `default.html`의 `data-speed`(걷는 속도), `data-sleepy`(잠자는 성향), `data-energy`(달리기·점프·쫓기 성향), `data-jump`(점프 높이 px), `data-reach`(방에서 한 번에 오를 수 있는 높이), `data-fav`(방에서 좋아하는 자리), `data-says`(누르면 하는 말)로 성격을 바꿉니다.
+- 스프라이트는 72×64px 칸이 6열(프레임) × 12행입니다. 행 순서는 일어서기, 걷기, 달리기, 서서 쉬기, 앉기, 그루밍, 엎드리기, 잠, 기지개, 점프, 덮치기, 꾹꾹이이고 `assets/cats.js`의 `ROW`와 `scripts/cat_sprites.py`의 `SHEETS`가 같아야 합니다(`tests/check_site.py`가 확인).
+- 움직임은 `assets/cats.js`, 스타일은 `assets/style.css`의 `.cat`, 마크업은 `_layouts/default.html`에 있습니다. `default.html`의 `data-speed`(걷는 속도, 초당 도트), `data-sleepy`(잠자는 성향), `data-energy`(달리기·점프·쫓기 성향), `data-jump`(점프 높이 px), `data-reach`(방에서 한 번에 오를 수 있는 높이), `data-fav`(방에서 좋아하는 자리), `data-says`(누르면 하는 말)로 성격을 바꿉니다.
 - 글 읽기를 방해하지 않도록 몸통 말고는 클릭이 고양이를 통과합니다. 움직임 줄이기 설정이 켜져 있으면 나타나지 않습니다.
 
-스프라이트를 다시 만들려면 시트를 2장 만듭니다. 각각 `scripts/cat-sprite-prompt.txt`(걷기, 앉기, 잠자기)와 `scripts/cat-sprite-extra-prompt.txt`(달리기, 점프, 기지개·놀기)의 `@CAT@`(고양이 설명), `@OUT@`(저장 경로)를 채워 고양이 사진과 함께 Codex나 ChatGPT에 요청합니다. 두 번째 시트는 첫 번째 시트도 참고 이미지로 함께 넘겨야 같은 그림체가 유지됩니다. 받은 시트(마젠타 배경)는 아래 명령으로 정리합니다.
+스프라이트를 다시 만들려면 Codex(내장 이미지 생성)로 원본 시트를 그리고 정리합니다. `codex` CLI가 ChatGPT로 로그인되어 있으면 API 키는 필요 없습니다.
 
 ```sh
-python3 scripts/cat_sprites.py assets/cats/jango.png 기본시트.png 추가시트.png
+mkdir -p ~/cat-src && cp 고양이사진_또는_예전스프라이트.png ~/cat-src/jango_ref.png
+scripts/cat_gen.sh jango model ~/cat-src   # 캐릭터 기준 시트(3x2). 마음에 들 때까지 다시 돌린다
+scripts/cat_gen.sh jango a ~/cat-src       # 동작 시트 a·b·c(6x4). 기준 시트를 참고 이미지로 붙여 같은 그림체를 유지한다
+scripts/cat_gen.sh jango b ~/cat-src
+scripts/cat_gen.sh jango c ~/cat-src
+python3 scripts/cat_sprites.py ~/cat-src jango   # assets/cats/jango.png 와 확인용 ~/cat-src/preview_jango.png
 ```
+
+- 기준 시트가 고양이의 생김새를 정하는 단계입니다. 무늬·눈 색·체형이 맞을 때까지 다시 만들고, 동작 시트는 이 그림만 참고합니다. 프롬프트는 `scripts/cat-model-prompt.txt`, `scripts/cat-anim-prompt.txt`, 행마다의 동작 설명은 `scripts/cat_gen.sh`에 있습니다.
+- 동작 시트는 배경이 투명합니다(마젠타 같은 단색 배경이어도 정리됩니다). 모든 시트의 첫 칸은 같은 앉은 자세라서 이 키로 시트마다의 크기를 맞춥니다.
+- `cat_sprites.py`는 크기를 맞추고, 시트마다 색감을 평균에 맞춘 뒤 팔레트 하나로 색을 고정하고, 외곽선을 다시 칠하고, 발을 기준선에·몸의 무게중심을 칸 가운데에 둡니다. `preview_<고양이>.png` 오른쪽의 겹친 그림에서 이웃 프레임이 크게 어긋나 보이면 `FIX`로 프레임 순서(`order`)나 가로 위치(`dx`)를 고칩니다. 한 줄이 통째로 이상하면 그 시트만 다시 만드는 편이 빠릅니다.

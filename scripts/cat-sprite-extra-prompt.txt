@@ -1,9 +1,0 @@
-Use the built-in image_gen tool (imagegen skill) to make ONE pixel-art sprite sheet of NEW poses for the cat shown in the attached images.
-Attached: (1) a reference photo of the cat, (2) an existing sprite sheet of this same cat. Keep the character IDENTICAL to the existing sheet: same pixel-art style, pixel size, sprite size, proportions, palette, outline color, and markings. Only the poses are new.
-
-Sheet layout: exactly 4 columns x 3 rows of equally sized cells on a single 3:2 landscape image, same as the existing sheet. Background is one flat pure magenta (#FF00FF) everywhere: no grid lines, no labels, no text, no shadows on the floor. One cat per cell, centered, feet on the same baseline near the bottom of the cell, and a generous margin so no pose touches a cell edge or another cat.
-Row 1: running (galloping) cycle facing RIGHT, 4 frames: body stretched, legs reaching forward then gathering, tail streaming behind.
-Row 2: jumping, facing right: frame 1 crouching low before the jump, frame 2 launching diagonally upward with the body stretched, frame 3 at the peak in mid-air with legs tucked, frame 4 landing with legs compressed.
-Row 3: frame 1 stretching (front legs stretched forward, bottom up, like a play bow), frame 2 the same stretch slightly deeper, frame 3 sitting with the head tilted up looking upward, frame 4 sitting and swiping one front paw up in the air.
-
-Save the final image to @OUT@ (move it from $CODEX_HOME/generated_images if needed). Do nothing else.

@@ -122,10 +122,10 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 400; word-break: keep-all; 
 
 /* 고양이 (assets/cats.js): 화면 아래를 돌아다니는 도트 스프라이트. 글 읽기를 방해하지 않도록 몸통 말고는 클릭이 통과한다 */
 .cats { position: fixed; inset: auto 0 0; height: 0; z-index: 5; pointer-events: none; }
-.cat { position: absolute; left: 0; bottom: 0; width: 56px; height: 56px; transform-origin: 50% 100%; }
-.cat::before { content: ""; position: absolute; inset: auto 8px 0; height: 5px; background: radial-gradient(closest-side, rgba(80, 95, 75, .22), transparent); }
-.sprite { position: absolute; inset: 0; background-size: 224px 336px; background-repeat: no-repeat; image-rendering: pixelated; pointer-events: none; }
-.hit { position: absolute; left: 10px; right: 10px; bottom: 2px; height: 36px; pointer-events: auto; cursor: pointer; }
+.cat { position: absolute; left: 0; bottom: 0; width: 72px; height: 64px; transform-origin: 50% 100%; }
+.cat::before { content: ""; position: absolute; inset: auto 16px 0; height: 5px; background: radial-gradient(closest-side, rgba(80, 95, 75, .22), transparent); }
+.sprite { position: absolute; inset: 0; background-size: 432px 768px; background-repeat: no-repeat; image-rendering: pixelated; pointer-events: none; }
+.hit { position: absolute; left: 16px; right: 16px; bottom: 2px; height: 38px; pointer-events: auto; cursor: pointer; }
 .bubble, .heart, .treat { position: absolute; z-index: 6; pointer-events: none; }
 .bubble { padding: 3px 9px; border: 1px solid var(--line); border-radius: 10px; background: #fffefb; font-size: 12px; white-space: nowrap; animation: bubble 2.2s ease-out forwards; }
 .heart { color: #e59a92; font-size: 14px; animation: heart 1.4s ease-out forwards; }
@@ -146,9 +146,9 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 400; word-break: keep-all; 
 .room-cats { position: absolute; z-index: 2; left: 0; bottom: 60px; width: 960px; height: 0; }
 .cat-hint { margin: 8px 0 32px; color: var(--muted); font-size: 13px; text-align: center; }
 .cat-profiles { max-width: 660px; margin: 0 auto; }
-.cat-profile { display: grid; grid-template-columns: 168px 1fr; gap: 28px; align-items: center; padding: 28px 0; border-top: 1px solid var(--line); }
-.cat-avatar { width: 168px; height: 168px; overflow: hidden; }
-.cat-avatar i { display: block; width: 56px; height: 56px; transform: scale(3); transform-origin: 0 0; background-size: 224px 336px; background-position: 0 -56px; background-repeat: no-repeat; image-rendering: pixelated; }
+.cat-profile { display: grid; grid-template-columns: 216px 1fr; gap: 28px; align-items: center; padding: 28px 0; border-top: 1px solid var(--line); }
+.cat-avatar { width: 216px; height: 192px; overflow: hidden; }
+.cat-avatar i { display: block; width: 72px; height: 64px; transform: scale(3); transform-origin: 0 0; background-size: 432px 768px; background-position: 0 -256px; background-repeat: no-repeat; image-rendering: pixelated; }
 .cat-profile h2 { margin: 0 0 8px; font-size: 22px; }
 .cat-profile p { margin: 0 0 10px; line-height: 1.9; word-break: keep-all; }
 .cat-profile .origin { color: var(--muted); }
@@ -172,7 +172,7 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 400; word-break: keep-all; 
   .brand { font-size: 18px; }
   .brand img { display: none; }
   .cat-profile { grid-template-columns: 1fr; gap: 12px; }
-  .cat-avatar { width: 112px; height: 112px; }
+  .cat-avatar { width: 144px; height: 128px; }
   .cat-avatar i { transform: scale(2); }
   .site-header nav { gap: 16px; }
   .intro { grid-template-columns: 1fr; padding-top: 24px; padding-bottom: 28px; }
