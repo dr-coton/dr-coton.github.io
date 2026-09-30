@@ -4,6 +4,8 @@ description: AI·소프트웨어 개발자이자 아이스크림 개발자, 성�
 url: https://dr-coton.github.io
 baseurl: ""
 lang: ko
+plugins:
+  - jekyll-sitemap  # /sitemap.xml, /robots.txt (GitHub Pages 기본 지원)
 markdown: kramdown
 kramdown:
   syntax_highlighter_opts:

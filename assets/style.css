@@ -99,6 +99,8 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 400; word-break: keep-all; 
 .prose .rouge-gutter pre { color: #b3b6a9; }
 .prose .rouge-table .rouge-code { padding-inline: 1.2em; }
 .prose .highlight .gd, .prose .highlight .gi { display: block; margin-inline: -1.2em; padding-inline: 1.2em; }
+.prose .copy-code { position: absolute; top: 6px; right: 8px; height: 22px; padding: 0 9px; border: 1px solid var(--line); border-radius: 5px; background: #fffefb; color: #8a8f83; font: 11px/1 var(--mono); cursor: pointer; }
+.prose .copy-code:hover { color: var(--ink); }
 /* 코드 색 (rouge) */
 .highlight .c, .highlight .c1, .highlight .cm, .highlight .cp { color: #7d8471; font-style: italic; }
 .highlight .k, .highlight .kd, .highlight .kn, .highlight .kr, .highlight .kc, .highlight .ow { color: #6e5a8c; }
@@ -110,6 +112,14 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 400; word-break: keep-all; 
 .highlight .gi { background: rgba(140, 170, 120, .22); }
 
 .writing-end { margin-top: 48px; }
+/* 이어서 읽기: 글 끝의 다른 글 세 편 */
+.related { margin: 8px 0 28px; padding-top: 28px; border-top: 1px solid var(--line); }
+.related h2 { margin: 0 0 16px; font-size: 18px; letter-spacing: -.03em; }
+.related ul { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin: 0; padding: 0; list-style: none; }
+.related a { display: flex; flex-direction: column; gap: 4px; }
+.related .thumb { margin-bottom: 4px; }
+.related strong { font-family: var(--serif); font-size: 15px; font-weight: 400; line-height: 1.6; word-break: keep-all; transition: color .15s; }
+.related a:hover strong { color: var(--green); }
 .sample-note { margin: 0 0 8px; color: var(--muted); font-size: 12px; }
 .about-page h1 { margin-top: 0; }
 .about-profile { float: right; width: 240px; margin: -8px -24px 12px 28px; mix-blend-mode: multiply;
@@ -117,6 +127,9 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 400; word-break: keep-all; 
 .about-page .prose { display: flow-root; }
 .about-page .back-link { margin-top: 24px; }
 .not-found { padding: 48px 0; }
+/* 404: 고양이 방과 같은 무대(assets/cats.js)에서 윗부분만 잘라 보여 준다. 무대 아래를 방 아래에 붙인다 */
+.not-found .room { aspect-ratio: 960 / 300; margin: 8px 0 16px; }
+.not-found .stage { top: auto; bottom: 0; transform-origin: 0 100%; }
 .not-found p { color: var(--muted); }
 .not-found .back-link { margin-top: 8px; }
 
@@ -190,6 +203,10 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 400; word-break: keep-all; 
   .prose { font-size: 15px; line-height: 2.05; }
   .prose h2 { font-size: 20px; }
   .about-profile { float: none; width: 200px; margin: 0 auto 16px; }
+  .related ul { grid-template-columns: 1fr; gap: 14px; }
+  .related a { display: grid; grid-template-columns: auto 1fr; column-gap: 14px; align-content: center; }
+  .related .thumb { grid-row: span 2; width: 96px; margin: 0; }
+  .related a > span, .related a > strong { grid-column: 2; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

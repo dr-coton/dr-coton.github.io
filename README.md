@@ -94,7 +94,8 @@ sips -s format jpeg -s formatOptions 85 -Z 1200 ~/Downloads/그림.png --out ass
 - 인터랙션: 고양이를 누르면 쓰다듬기(하트와 한마디, 자는 중이면 귀만 쫑긋), 마우스를 화면 아래에 가져다 대면 달려와서 덮칩니다. `/cats/`에서는 바닥이나 선반을 누르면 간식이 떨어지고 가까운 고양이가 먹으러 옵니다.
 - `/cats/`의 방은 `cats.html`의 SVG 그림이고, 세탁기만 고양이보다 앞 층에 그려서 드리가 뒤로 숨을 수 있습니다. 고양이가 딛는 발판은 `.room-cats`의 `data-platforms`(가로 범위와 바닥에서의 높이)로 정하고, 그림을 바꾸면 이 좌표도 함께 고쳐야 합니다.
 - 스프라이트는 72×64px 칸이 6열(프레임) × 12행입니다. 행 순서는 일어서기, 걷기, 달리기, 서서 쉬기, 앉기, 그루밍, 엎드리기, 잠, 기지개, 점프, 덮치기, 꾹꾹이이고 `assets/cats.js`의 `ROW`와 `scripts/cat_sprites.py`의 `SHEETS`가 같아야 합니다(`tests/check_site.py`가 확인).
-- 움직임은 `assets/cats.js`, 스타일은 `assets/style.css`의 `.cat`, 마크업은 `_layouts/default.html`에 있습니다. `default.html`의 `data-speed`(걷는 속도, 초당 도트), `data-sleepy`(잠자는 성향), `data-energy`(달리기·점프·쫓기 성향), `data-jump`(점프 높이 px), `data-reach`(방에서 한 번에 오를 수 있는 높이), `data-fav`(방에서 좋아하는 자리), `data-says`(누르면 하는 말)로 성격을 바꿉니다.
+- 움직임은 `assets/cats.js`, 스타일은 `assets/style.css`의 `.cat`, 마크업은 `_layouts/default.html`에 있습니다. `default.html`의 `data-speed`(걷는 속도, 초당 도트), `data-sleepy`(잠자는 성향), `data-energy`(달리기·점프·쫓기 성향), `data-jump`(점프 높이 px), `data-reach`(방에서 한 번에 오를 수 있는 높이), `data-fav`(좋아하는 자리. `|`로 무대마다 하나씩, 예: 방의 `fridge`, 404의 `nest`), `data-says`(누르면 하는 말)로 성격을 바꿉니다.
+- 없는 주소로 들어오면 나오는 `404.html`에도 같은 방식의 무대가 있습니다. 큰 `404` 글자 위와 옆 턱, `0`의 구멍 안이 발판이고, 높이 못 뛰는 장고는 주로 `0` 안에 들어가 잡니다.
 - 글 읽기를 방해하지 않도록 몸통 말고는 클릭이 고양이를 통과합니다. 움직임 줄이기 설정이 켜져 있으면 나타나지 않습니다.
 
 스프라이트를 다시 만들려면 Codex(내장 이미지 생성)로 원본 시트를 그리고 정리합니다. `codex` CLI가 ChatGPT로 로그인되어 있으면 API 키는 필요 없습니다.

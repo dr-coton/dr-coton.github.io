@@ -1,4 +1,4 @@
-// 장고와 드리: 어느 페이지에서든 화면 아래를 돌아다니고, /cats/ 에서는 고양이 방(캣타워·선반·냉장고·세탁기)에서 논다.
+// 장고와 드리: 어느 페이지에서든 화면 아래를 돌아다니고, /cats/ 에서는 고양이 방(캣타워·선반·냉장고·세탁기), 404 에서는 404 글자 위에서 논다.
 // 스프라이트: 72x64 칸, 6열(프레임) x 12행(ROW). 만드는 법은 README 참고.
 (() => {
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -13,7 +13,7 @@
   const cats = [];
   let world, lure;
 
-  // 세계: 화면 아래 한 줄(바닥뿐) 또는 고양이 방(발판이 여러 개). 발판 = { n: 이름, x: [왼쪽, 오른쪽], y: 바닥에서의 높이 }
+  // 세계: 화면 아래 한 줄(바닥뿐) 또는 .room-cats 가 있는 무대(발판이 여러 개). 발판 = { n: 이름, x: [왼쪽, 오른쪽], y: 바닥에서의 높이 }
   const sync = () => {
     const r = document.querySelector('.room-cats');
     if (!r && world && !world.room) return; // 계속 화면 아래에서 논다
@@ -40,7 +40,7 @@
     sp.className = 'sprite';
     sp.style.backgroundImage = `url(${el.dataset.sprite})`;
     sp.innerHTML = '<i class="hit"></i>'; // 누를 수 있는 곳은 몸통 근처만(뒤의 글과 링크를 가리지 않게)
-    const d = el.dataset, speed = +d.speed, sleepy = +d.sleepy, energy = +d.energy, jumpH = +d.jump, reach = +d.reach, says = d.says.split('|');
+    const d = el.dataset, speed = +d.speed, sleepy = +d.sleepy, energy = +d.energy, jumpH = +d.jump, reach = +d.reach, favs = d.fav.split('|'), says = d.says.split('|');
     const cat = { x: 0, gy: 0, plat: 0, air: false };
     let dir = 1, row = 'sit', frame = 0, lift = 0, pose = 'sit', act = null, queue = [], teaseAt = 0;
     cats.push(cat);
@@ -116,7 +116,7 @@
 
     const up = () => to('stand');
     const stretch = () => [to('sit'), hold('stretch', [[0, 200], [1, 250], [2, 700], [3, 1300], [4, 900], [5, 300]]), set('stand')]; // 앉았다 일어나며 앞으로, 뒤로 쭉
-    const stay = () => world.room && d.stay && P()[cat.plat].n === d.fav; // 좋아하는 자리에 올라가면 좀처럼 안 내려온다
+    const stay = () => world.room && d.stay && favs.includes(P()[cat.plat].n); // 좋아하는 자리에 올라가면 좀처럼 안 내려온다
     const plan = {
       walk: () => [up(), travel('walk', speed, far), ...(Math.random() < 0.4 ? [hold('stand', idle(rand(1500, 3000), STAND))] : [])],
       sniff: () => [up(), travel('walk', speed, () => cat.x + dir * rand(30, 80)), hold('stand', [[2, 700], [3, 400], [2, 500], [3, 600], [0, 400]])],
@@ -133,7 +133,7 @@
         return [up(), travel('run', speed * 2.8, () => o.x + (cat.x < o.x ? -50 : 50)), hold('pounce', [[5, 350]]), () => { o.flee(); return true; }];
       },
       climb: () => { // 방에서 발판을 골라 걷고 뛰어서 올라간다(반은 좋아하는 자리로)
-        const ps = P(), fav = ps.findIndex(p => p.n === d.fav), to = Math.random() < 0.5 && fav >= 0 ? fav : Math.floor(rand(0, ps.length)), p = ps[to];
+        const ps = P(), fav = ps.findIndex(p => favs.includes(p.n)), to = Math.random() < 0.5 && fav >= 0 ? fav : Math.floor(rand(0, ps.length)), p = ps[to];
         const r = route(to, () => rand(p.x[0] + 20, p.x[1] - 20));
         return r ? [up(), ...r] : plan.sit();
       },
@@ -144,7 +144,7 @@
     };
     // 느긋한 행동이 대부분이고 뛰어노는 건 가끔. 이미 앉아 있거나 엎드려 있으면 그 자세로 할 수 있는 걸 더 자주 고른다
     const pick = () => {
-      const w = { walk: 4, sniff: 1.5, sit: 3, groom: 1.5, loaf: 1 + sleepy * 3, nap: sleepy * 5, run: energy * 2, jump: 0.5 + energy * 2, play: energy * 1.5, chase: cats.length > 1 ? energy * 1.2 : 0, climb: world.room ? 3 : 0, peek: world.room && d.hider ? 2 : 0 };
+      const w = { walk: 4, sniff: 1.5, sit: 3, groom: 1.5, loaf: 1 + sleepy * 3, nap: sleepy * 5, run: energy * 2, jump: 0.5 + energy * 2, play: energy * 1.5, chase: cats.length > 1 ? energy * 1.2 : 0, climb: world.room ? 3 : 0, peek: world.room && d.hider && world.hide[0] ? 2 : 0 };
       if (pose === 'sit') Object.assign(w, { sit: w.sit * 1.5, groom: w.groom * 2, loaf: w.loaf * 2 });
       if (pose === 'loaf') Object.assign(w, { loaf: w.loaf * 2, nap: w.nap * 3 });
       if (stay()) Object.assign(w, { walk: 0.3, sniff: 0, run: 0, jump: 0, play: 0, chase: 0, climb: 0.3, sit: 9, loaf: 6, nap: sleepy * 30 });
@@ -214,7 +214,7 @@
   // 고양이 방에서 바닥이나 발판을 누르면 간식이 떨어지고 가까운 고양이가 먹으러 온다
   document.addEventListener('click', e => {
     if (!world.room || !world.room.contains(e.target)) return;
-    const r = world.room.getBoundingClientRect(), k = r.width / 960;
+    const r = world.room.firstElementChild.getBoundingClientRect(), k = r.width / 960; // 무대 기준(404처럼 무대 윗부분을 잘라 보여 줘도 맞게)
     const x = (e.clientX - r.left) / k, h = 400 - (e.clientY - r.top) / k; // 방 안 좌표: 가로, 바닥에서의 높이
     let pi = -1;
     world.plats.forEach((p, i) => { if (x >= p.x[0] && x <= p.x[1] && p.y <= h + 25 && (pi < 0 || p.y > world.plats[pi].y)) pi = i; });

@@ -2,9 +2,52 @@
 layout: default
 title: 페이지를 찾을 수 없습니다
 permalink: /404.html
+sitemap: false
 ---
-<div class="reading-page not-found">
+<div class="not-found">
   <h1>페이지를 찾을 수 없습니다</h1>
-  <p>주소가 바뀌었거나 없는 페이지입니다.</p>
+  <p>주소가 바뀌었거나 없는 페이지입니다. 그사이 고양이들이 404를 차지했어요.</p>
+
+  <div class="room">
+    <div class="stage">
+      <svg class="room-back" viewBox="0 0 960 460" aria-hidden="true">
+        <defs>
+          <filter id="rb" x="-5%" y="-5%" width="110%" height="110%">
+            <feTurbulence type="fractalNoise" baseFrequency=".03" numOctaves="3" seed="4" result="n"/>
+            <feDisplacementMap in="SourceGraphic" in2="n" scale="7"/>
+          </filter>
+          <filter id="rl" x="-5%" y="-5%" width="110%" height="110%">
+            <feTurbulence type="fractalNoise" baseFrequency=".02" numOctaves="2" seed="7" result="n"/>
+            <feDisplacementMap in="SourceGraphic" in2="n" scale="4"/>
+          </filter>
+          <filter id="rw" x="-10%" y="-25%" width="120%" height="150%">
+            <feTurbulence type="fractalNoise" baseFrequency=".008 .012" numOctaves="4" seed="9" result="n"/>
+            <feDisplacementMap in="SourceGraphic" in2="n" scale="46" result="d"/>
+            <feGaussianBlur in="d" stdDeviation="5"/>
+          </filter>
+        </defs>
+        <!-- 바닥 -->
+        <rect x="40" y="398" width="880" height="40" fill="#dcc7a6" opacity=".45" filter="url(#rw)"/>
+        <ellipse cx="480" cy="402" rx="330" ry="9" fill="#8f9f82" opacity=".2" filter="url(#rw)"/>
+        <path d="M60 401H900" stroke="#a48c6a" stroke-width="2" opacity=".45" filter="url(#rb)"/>
+        <!-- 4 0 4: 뒤로 비켜 그린 진한 판이 두께. 고양이가 딛는 곳은 아래 data-platforms -->
+        <g filter="url(#rl)" stroke-linejoin="round" fill-rule="evenodd">
+          <g transform="translate(10 -10)" fill="#b7c5a8" stroke="#9aaa8d" stroke-width="2">
+            <path d="M171 220H221V310H251V220H301V310H361V360H301V400H251V360H171Z"/>
+            <path d="M465 220H495A70 70 0 0 1 565 290V330A70 70 0 0 1 495 400H465A70 70 0 0 1 395 330V290A70 70 0 0 1 465 220ZM480 270A35 35 0 0 1 515 305V315A35 35 0 0 1 480 350A35 35 0 0 1 445 315V305A35 35 0 0 1 480 270Z"/>
+            <path d="M599 220H649V310H679V220H729V310H789V360H729V400H679V360H599Z"/>
+          </g>
+          <g fill="#dbe3d0" stroke="#8f9f82" stroke-width="2.5">
+            <path d="M171 220H221V310H251V220H301V310H361V360H301V400H251V360H171Z"/>
+            <path d="M465 220H495A70 70 0 0 1 565 290V330A70 70 0 0 1 495 400H465A70 70 0 0 1 395 330V290A70 70 0 0 1 465 220ZM480 270A35 35 0 0 1 515 305V315A35 35 0 0 1 480 350A35 35 0 0 1 445 315V305A35 35 0 0 1 480 270Z"/>
+            <path d="M599 220H649V310H679V220H729V310H789V360H729V400H679V360H599Z"/>
+          </g>
+        </g>
+      </svg>
+      <!-- 발판: 4의 윗면·옆으로 튀어나온 턱, 0의 윗면과 구멍 안(둥지). 장고는 높이 못 뛰어서 둥지와 첫 번째 4의 턱까지만 간다 -->
+      <div class="room-cats" data-platforms='[{"n":"floor","x":[0,960],"y":0},{"n":"ledge","x":[301,361],"y":94},{"n":"top","x":[171,221],"y":184},{"n":"top","x":[251,301],"y":184},{"n":"nest","x":[445,515],"y":54},{"n":"zero-top","x":[450,510],"y":184},{"n":"ledge","x":[729,789],"y":94},{"n":"top","x":[599,649],"y":184},{"n":"top","x":[679,729],"y":184}]'></div>
+    </div>
+  </div>
+
   <a class="back-link" href="{{ '/' | relative_url }}">글 모음으로 가기</a>
 </div>

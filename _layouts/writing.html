@@ -10,9 +10,41 @@ layout: default
   </header>
   {% if page.thumb %}<img class="thumb" src="{{ page.thumb | relative_url }}" width="1200" height="800" alt="">{% endif %}
   <div class="prose">{{ content }}</div>
-  <script>document.querySelectorAll('div.highlighter-rouge').forEach(function (e) { e.dataset.language = (e.className.match(/language-(\S+)/) || [])[1] || ''; });</script>
+  <script>
+    // 코드 블록 제목 막대에 언어 이름과 복사 버튼. soft-nav.js가 다시 실행하므로 전역 변수를 만들지 않는다
+    document.querySelectorAll('div.highlighter-rouge').forEach(function (e) {
+      e.dataset.language = (e.className.match(/language-(\S+)/) || [])[1] || '';
+      var b = e.appendChild(document.createElement('button'));
+      b.type = 'button'; b.className = 'copy-code'; b.textContent = '복사'; b.setAttribute('aria-live', 'polite');
+      b.addEventListener('click', function () {
+        var code = e.querySelector('.rouge-code pre') || e.querySelector('pre'); // 줄 번호 칸은 빼고
+        navigator.clipboard.writeText(code.innerText.replace(/\n$/, '')).then(function () {
+          b.textContent = '복사됨';
+          setTimeout(function () { b.textContent = '복사'; }, 1500);
+        });
+      });
+    });
+  </script>
   <div class="writing-end">
     {% if page.sample %}<p class="sample-note">블로그 디자인을 위해 적어 둔 가상의 글입니다.</p>{% endif %}
+    {% comment %}이어서 읽을 글: 같은 주제 글을 먼저, 모자라면 다른 주제 글로 채운다{% endcomment %}
+    {% assign same = site.writings | where: 'topic', page.topic | where_exp: 'w', 'w.url != page.url' | sort: 'title' %}
+    {% assign others = site.writings | where_exp: 'w', 'w.topic != page.topic' | sort: 'title' %}
+    {% assign related = same | concat: others %}
+    <nav class="related" aria-labelledby="related-title">
+      <h2 id="related-title">이어서 읽기</h2>
+      <ul>
+        {% for writing in related limit: 3 %}
+        <li>
+          <a href="{{ writing.url | relative_url }}">
+            {% if writing.thumb %}<img class="thumb" src="{{ writing.thumb | relative_url }}" width="1200" height="800" alt="" loading="lazy">{% endif %}
+            <span class="topic">{{ writing.topic | escape }}</span>
+            <strong>{{ writing.title | escape }}</strong>
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+    </nav>
     <a class="back-link" href="{{ '/' | relative_url }}">다른 글 보기</a>
   </div>
 </article>

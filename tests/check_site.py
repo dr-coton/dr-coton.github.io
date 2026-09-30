@@ -51,6 +51,9 @@ for path in pages:
             target /= "index.html"
         assert target.is_file(), f"Broken local link in {path}: {link}"
 
+sitemap = (output / "sitemap.xml").read_text()
+assert "/writing/" in sitemap and "404" not in sitemap, "sitemap.xml should list writings but not the 404 page"
+
 # 고양이 스프라이트: cats.js 의 행 순서 = scripts/cat_sprites.py 의 행 순서, 그림 크기 = 칸 크기 x 열·행 수
 sprite_consts = {}
 for node in ast.parse((root / "scripts" / "cat_sprites.py").read_text()).body:
