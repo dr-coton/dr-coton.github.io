@@ -1,0 +1,5 @@
+Style: hand-painted translucent watercolor on cold-press paper, soft wet-on-wet edges, pigment pooling, visible paper grain. Muted, low-saturation, airy, contemplative.
+Palette by topic: 개발 warm ochre + soft teal, 일상 sage green, 생각 lavender, 취향 dusty peach, 배움 dusty blue. Add a touch of warm peach or sage so every thumbnail feels like one set.
+Subject: ONE simple object or scene as a quiet metaphor for the post. Never draw text, letters, numbers, code, screens or UI, logos, watermarks, or human faces.
+Composition: 3:2 landscape (1536x1024). The subject is centered and fills only the middle ~50% of the frame; the top and bottom quarter stay empty because the page crops them.
+Background: perfectly plain warm off-white (#fafaf6). No gradient, texture, vignette, border, frame, paper edge, or drawn rectangle. The paint edges bleed softly into that background; any shadow is only a faint soft wash under the subject.

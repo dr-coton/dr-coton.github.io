@@ -1,0 +1,35 @@
+title: 꼬박사의 연구노트
+author: coton
+description: AI·소프트웨어 개발자이자 아이스크림 개발자, 성능 컨설턴트 꼬똥(꼬박사)이 만들고, 재고, 맛보며 배운 것을 적어둡니다.
+url: https://dr-coton.github.io
+baseurl: ""
+lang: ko
+markdown: kramdown
+kramdown:
+  syntax_highlighter_opts:
+    default_lang: plaintext
+    block:
+      line_numbers: true
+collections:
+  writings:
+    output: true
+    permalink: /writing/:name/
+defaults:
+  - scope:
+      path: ""
+      type: writings
+    values:
+      layout: writing
+topics:
+  - 개발
+  - 일상
+  - 생각
+  - 취향
+  - 배움
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - vendor
+  - tests
+  - scripts

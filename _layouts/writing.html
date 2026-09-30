@@ -1,0 +1,18 @@
+---
+layout: default
+---
+<article class="reading-page">
+  <a class="back-link" href="{{ '/' | relative_url }}">글 모음</a>
+  <header class="writing-header">
+    <span class="topic">{{ page.topic | escape }}</span>
+    <h1>{{ page.title | escape }}</h1>
+    {% if page.description %}<p class="writing-description">{{ page.description | escape }}</p>{% endif %}
+  </header>
+  {% if page.thumb %}<img class="thumb" src="{{ page.thumb | relative_url }}" width="1200" height="800" alt="">{% endif %}
+  <div class="prose">{{ content }}</div>
+  <script>document.querySelectorAll('div.highlighter-rouge').forEach(function (e) { e.dataset.language = (e.className.match(/language-(\S+)/) || [])[1] || ''; });</script>
+  <div class="writing-end">
+    {% if page.sample %}<p class="sample-note">블로그 디자인을 위해 적어 둔 가상의 글입니다.</p>{% endif %}
+    <a class="back-link" href="{{ '/' | relative_url }}">다른 글 보기</a>
+  </div>
+</article>

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 44">
+  <defs><filter id="wash" x="-40%" y="-40%" width="180%" height="180%"><feTurbulence type="fractalNoise" baseFrequency=".13" numOctaves="3" seed="8"/><feDisplacementMap in="SourceGraphic" scale="2.5"/></filter></defs>
+  <g filter="url(#wash)"><ellipse cx="15" cy="20" rx="10" ry="13" transform="rotate(-33 15 20)" fill="#b3bba3" opacity=".65"/><ellipse cx="25" cy="17" rx="8" ry="11" transform="rotate(30 25 17)" fill="#789580" opacity=".65"/></g>
+  <path d="M20 37c-1-10 1-16 6-24M20 31l-9-12" fill="none" stroke="#6c8069" stroke-width="1.2" stroke-linecap="round"/>
+</svg>

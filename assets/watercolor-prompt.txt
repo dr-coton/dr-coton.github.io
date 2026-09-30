@@ -1,0 +1,9 @@
+Generated with the built-in ImageGen tool.
+File: watercolor-generated.png
+
+Use case: illustration-story
+Asset type: small decorative watercolor illustration for a quiet Korean personal writing blog, wide landscape 3:2 composition.
+Primary request: an understated genuine hand-painted watercolor landscape: softly rolling sage-green hills, distant misty dusty blue mountains, a very faint warm peach sun, a few tiny delicate grasses in the foreground. Serene, sparse, contemplative, the feeling of an unfinished watercolor sketch in a personal notebook.
+Style/medium: traditional watercolor, translucent pigment washes, soft wet-on-wet edges, subtle pigment pooling and natural paper grain inside the paint; organic hand-painted marks, absolutely not vector art or 3D.
+Composition: horizontally layered hills in the lower two thirds, ample empty space above, all outer edges softly dissolve into full transparency. Keep the painting delicate, light and low contrast, muted tones. No hard rectangle or frame. No objects, buildings, people, birds, text, lettering, logos or watermark.
+Background: genuine transparent background, soft feathered alpha edges. Preserve small real watercolor details.
