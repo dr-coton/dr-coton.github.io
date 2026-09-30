@@ -1,0 +1,12 @@
+Use the built-in image_gen tool (imagegen skill) to make ONE pixel-art sprite sheet of the cat in the attached reference photo.
+
+Character: @CAT@ It must be recognizable as this specific cat (coat pattern, white markings, eye color), drawn as a cute chibi side-view pixel-art cat.
+
+Sheet layout: exactly 4 columns x 3 rows of equally sized cells on a single 3:2 landscape image. Background is one flat pure magenta (#FF00FF) everywhere: no grid lines, no labels, no text, no shadows on the floor. One cat per cell, centered, with feet on the same baseline near the bottom of the cell, and a generous margin so no cat touches a cell edge or another cat.
+Row 1: walking cycle, facing RIGHT, 4 frames (legs alternate, tail sways).
+Row 2: sitting, facing right: frame 1 calm, frame 2 eyes blinking, frame 3 tail flick, frame 4 licking a front paw.
+Row 3: sleeping curled up (side view), 4 frames with subtle breathing (body rises and falls slightly), eyes closed.
+
+Style: low-resolution pixel art (each cat about 32x32 pixels, scaled up with hard square pixels), no anti-aliasing, no gradients, limited palette of about 12 colors, soft muted colors that suit a watercolor blog, warm dark-brown outline (never pure black). Identical scale, palette, and body proportions in every frame.
+
+Save the final image to @OUT@ (move it from $CODEX_HOME/generated_images if needed). Do nothing else.

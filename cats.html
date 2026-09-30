@@ -1,0 +1,98 @@
+---
+layout: default
+title: 고양이
+permalink: /cats/
+---
+<div class="cat-page">
+  <h1>장고와 드리</h1>
+  <p class="cat-lead">우리 집 고양이 두 마리입니다. 다른 페이지에서는 화면 아래를 돌아다니고, 여기서는 집에서 놉니다.</p>
+
+  <div class="room">
+    <div class="stage">
+      <svg class="room-back" viewBox="0 0 960 460" aria-hidden="true">
+        <defs>
+          <filter id="rb" x="-5%" y="-5%" width="110%" height="110%">
+            <feTurbulence type="fractalNoise" baseFrequency=".03" numOctaves="3" seed="4" result="n"/>
+            <feDisplacementMap in="SourceGraphic" in2="n" scale="7"/>
+          </filter>
+          <filter id="rw" x="-10%" y="-25%" width="120%" height="150%">
+            <feTurbulence type="fractalNoise" baseFrequency=".008 .012" numOctaves="4" seed="9" result="n"/>
+            <feDisplacementMap in="SourceGraphic" in2="n" scale="46" result="d"/>
+            <feGaussianBlur in="d" stdDeviation="5"/>
+          </filter>
+          <pattern id="rope" width="24" height="7" patternUnits="userSpaceOnUse"><rect width="24" height="7" fill="#e0cca4"/><path d="M0 6H24" stroke="#b79f74" stroke-width="1.6"/></pattern>
+          <pattern id="weave" width="10" height="10" patternUnits="userSpaceOnUse"><rect width="10" height="10" fill="#dcbf90"/><path d="M0 5H10M5 0V10" stroke="#b99a68" stroke-width="1.2"/></pattern>
+        </defs>
+        <!-- 벽과 바닥, 창으로 들어오는 햇살 -->
+        <rect x="14" y="14" width="932" height="392" rx="26" fill="#f0e7d6" opacity=".6" filter="url(#rw)"/>
+        <rect x="0" y="398" width="960" height="56" fill="#dcc7a6" opacity=".55" filter="url(#rw)"/>
+        <path d="M580 205 700 205 760 400 520 400Z" fill="#f7e8b8" opacity=".24" filter="url(#rw)"/>
+        <path d="M24 401H936" stroke="#a48c6a" stroke-width="2" opacity=".55" filter="url(#rb)"/>
+        <g filter="url(#rb)">
+          <!-- 창문 -->
+          <rect x="545" y="70" width="150" height="132" fill="#d3e4ec" opacity=".85"/>
+          <rect x="545" y="70" width="150" height="132" fill="none" stroke="#b7a184" stroke-width="6" opacity=".8"/>
+          <path d="M620 70V202M545 136H695" stroke="#b7a184" stroke-width="4" opacity=".7"/>
+          <circle cx="668" cy="98" r="14" fill="#f5dfa3" opacity=".75"/>
+          <!-- 냉장고 (장고의 자리) -->
+          <rect x="40" y="195" width="130" height="205" fill="#c3d3dc" opacity=".92"/>
+          <rect x="40" y="195" width="130" height="205" fill="none" stroke="#8fa5b2" stroke-width="3" opacity=".7"/>
+          <path d="M40 262H170" stroke="#8fa5b2" stroke-width="3" opacity=".7"/>
+          <rect x="152" y="208" width="6" height="40" rx="3" fill="#8fa5b2" opacity=".85"/>
+          <rect x="152" y="276" width="6" height="62" rx="3" fill="#8fa5b2" opacity=".85"/>
+          <!-- 벽 선반 -->
+          <rect x="190" y="250" width="78" height="9" fill="#c9ab80" opacity=".95"/>
+          <path d="M200 259v20h14zM256 259v20h-14z" fill="#b99a70" opacity=".8"/>
+          <!-- 캣타워: 기둥, 판, 집 -->
+          <rect x="352" y="190" width="24" height="210" fill="url(#rope)"/>
+          <rect x="300" y="190" width="120" height="8" rx="3" fill="#c9ab80"/>
+          <rect x="352" y="245" width="143" height="8" rx="3" fill="#c9ab80"/>
+          <rect x="245" y="300" width="131" height="8" rx="3" fill="#c9ab80"/>
+          <rect x="300" y="363" width="130" height="37" fill="#dcc6a0"/>
+          <ellipse cx="365" cy="385" rx="15" ry="14" fill="#8d7658" opacity=".7"/>
+          <rect x="292" y="355" width="146" height="8" rx="3" fill="#c9ab80"/>
+          <!-- 빨래 바구니 -->
+          <rect x="640" y="340" width="55" height="60" rx="6" fill="url(#weave)"/>
+          <rect x="636" y="338" width="63" height="7" rx="3" fill="#b99a68"/>
+          <!-- 방석 -->
+          <ellipse cx="570" cy="396" rx="52" ry="12" fill="#e7b9a6"/>
+          <ellipse cx="570" cy="393" rx="38" ry="7" fill="#f0cdbd" opacity=".9"/>
+        </g>
+      </svg>
+      <div class="room-cats" data-hide="700,830" data-platforms='[{"n":"floor","x":[0,960],"y":0},{"n":"cushion","x":[520,620],"y":14},{"n":"basket","x":[640,695],"y":60},{"n":"washer","x":[700,830],"y":115},{"n":"base","x":[292,438],"y":45},{"n":"p2","x":[245,345],"y":100},{"n":"p3","x":[385,495],"y":155},{"n":"p4","x":[300,420],"y":210},{"n":"shelf","x":[190,265],"y":150},{"n":"fridge","x":[40,170],"y":205}]'></div>
+      <svg class="room-front" viewBox="0 0 960 460" aria-hidden="true">
+        <!-- 세탁기: 고양이보다 앞에 그려서 드리가 뒤로 숨을 수 있다 (드리의 자리) -->
+        <g filter="url(#rb)">
+          <rect x="700" y="285" width="130" height="115" fill="#dbe4e8"/>
+          <rect x="700" y="285" width="130" height="115" fill="none" stroke="#9fb3bf" stroke-width="3"/>
+          <rect x="708" y="293" width="114" height="18" fill="#c3d1d9"/>
+          <circle cx="800" cy="302" r="6" fill="#8ba0ad"/>
+          <circle cx="778" cy="302" r="3" fill="#8ba0ad"/>
+          <circle cx="765" cy="352" r="36" fill="#b9ccd6" stroke="#8ba0ad" stroke-width="5"/>
+          <circle cx="765" cy="352" r="24" fill="#9fb6c3" opacity=".85"/>
+          <path d="M748 340a22 22 0 0 1 20-8" stroke="#eef3f6" stroke-width="4" fill="none" stroke-linecap="round"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+  <p class="cat-hint">고양이를 누르면 쓰다듬을 수 있고, 바닥이나 선반을 누르면 간식이 떨어져요.</p>
+
+  <div class="cat-profiles">
+    <section class="cat-profile">
+      <div class="cat-avatar"><i style="background-image:url({{ '/assets/cats/jango.png' | relative_url }})"></i></div>
+      <div>
+        <h2>장고</h2>
+        <p>뚱뚱한 쪽입니다. 갈색과 회색 줄무늬에 주황색 무늬가 섞였고, 가슴과 앞발은 하얗습니다. 눈은 노란빛이 도는 초록색이에요. 이 사이트에서는 느긋하게 움직이고 높이 뛰기 어려워하는 모습으로 그렸습니다.</p>
+        <p class="origin">이름은 냉장고에서 왔습니다. 처음 만난 날, 장고는 냉장고 위에서 무서워서 내려오려 하지 않았어요. 그래서 냉장고의 '장고'입니다. 방에서도 냉장고 위에 올라가면 좀처럼 내려오지 않아요.</p>
+      </div>
+    </section>
+    <section class="cat-profile">
+      <div class="cat-avatar"><i style="background-image:url({{ '/assets/cats/deuri.png' | relative_url }})"></i></div>
+      <div>
+        <h2>드리</h2>
+        <p>평범한 쪽입니다. 짙은 갈색 줄무늬에 코 위부터 눈 사이로 하얀 무늬가 있고, 가슴도 하얗습니다. 눈은 호박빛이 도는 초록색이에요. 이 사이트에서는 빠르고 높이 뛰는 모습으로 그렸습니다.</p>
+        <p class="origin">이름은 세탁기에서 왔습니다. 처음 집에 온 날, 드리는 세탁기 뒤에서 나오려 하지 않았어요. 그래서 런드리(laundry)의 '드리'입니다. 방에서는 가끔 세탁기 뒤에서 얼굴만 내밀어요.</p>
+      </div>
+    </section>
+  </div>
+</div>
