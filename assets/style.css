@@ -158,13 +158,13 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 400; word-break: keep-all; 
 .room-front { z-index: 3; }
 .room-cats { position: absolute; z-index: 2; left: 0; bottom: 60px; width: 960px; height: 0; }
 .cat-hint { margin: 8px 0 32px; color: var(--muted); font-size: 13px; text-align: center; }
-.cat-profiles { max-width: 660px; margin: 0 auto; }
-.cat-profile { display: grid; grid-template-columns: 216px 1fr; gap: 28px; align-items: center; padding: 28px 0; border-top: 1px solid var(--line); }
-.cat-avatar { width: 216px; height: 192px; overflow: hidden; }
-.cat-avatar i { display: block; width: 72px; height: 64px; transform: scale(3); transform-origin: 0 0; background-size: 432px 768px; background-position: 0 -256px; background-repeat: no-repeat; image-rendering: pixelated; }
-.cat-profile h2 { margin: 0 0 8px; font-size: 22px; }
-.cat-profile p { margin: 0 0 10px; line-height: 1.9; word-break: keep-all; }
-.cat-profile .origin { color: var(--muted); }
+.cat-profiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 660px; margin: 0 auto; padding-top: 24px; border-top: 1px solid var(--line); }
+.cat-profile { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 0 24px; text-align: center; }
+.cat-profile + .cat-profile { border-left: 1px solid var(--line); }
+.cat-avatar { width: 144px; height: 128px; flex-shrink: 0; overflow: hidden; }
+.cat-avatar i { display: block; width: 72px; height: 64px; transform: scale(2); transform-origin: 0 0; background-size: 432px 768px; background-position: -144px -256px; background-repeat: no-repeat; image-rendering: pixelated; }
+.cat-profile h2 { margin: 0 0 8px; font-size: 22px; letter-spacing: 0; }
+.cat-profile p { max-width: 240px; margin: 0; font-size: 14px; line-height: 1.8; word-break: keep-all; overflow-wrap: anywhere; }
 
 @media (min-width: 1440px) {
   .intro { padding-block: 64px 80px; }
@@ -184,9 +184,12 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 400; word-break: keep-all; 
 @media (max-width: 540px) {
   .brand { font-size: 18px; }
   .brand img { display: none; }
-  .cat-profile { grid-template-columns: 1fr; gap: 12px; }
-  .cat-avatar { width: 144px; height: 128px; }
-  .cat-avatar i { transform: scale(2); }
+  .cat-profiles { grid-template-columns: 1fr; padding-top: 16px; }
+  .cat-profile { flex-direction: row; gap: 16px; padding: 16px 0; text-align: left; }
+  .cat-profile + .cat-profile { border-left: 0; border-top: 1px solid var(--line); }
+  .cat-avatar { width: 108px; height: 96px; }
+  .cat-avatar i { transform: scale(1.5); }
+  .cat-profile h2 { font-size: 20px; }
   .site-header nav { gap: 16px; }
   .intro { grid-template-columns: 1fr; padding-top: 24px; padding-bottom: 28px; }
   .intro h1 { font-size: 27px; }
