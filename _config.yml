@@ -29,6 +29,8 @@ topics:
   - 취향
   - 배움
 exclude:
+  - AGENTS.md
+  - docs
   - Gemfile
   - Gemfile.lock
   - README.md
