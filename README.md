@@ -28,7 +28,7 @@ Markdown으로 자유롭게 작성하세요.
 
 ## GitHub Pages 연결
 
-저장소 **Settings → Pages → Build and deployment**에서 **Deploy from a branch**, **main**, **/(root)**를 선택하면 `https://dr-coton.github.io`로 발행됩니다. [GitHub 공식 안내](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site)
+저장소 **Settings → Pages → Build and deployment**에서 **Deploy from a branch**, **main**, **/(root)**를 선택하면 `https://dr-coton.com`(저장소의 `CNAME` 파일)으로 발행됩니다. [GitHub 공식 안내](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site)
 
 ## 로컬 미리보기
 
