@@ -30,7 +30,6 @@ class Page(HTMLParser):
 root = Path(__file__).resolve().parents[1]
 output = root / "_site"
 sources = list((root / "_writings").glob("*.md"))
-assert sources, "No writings found"
 for source in sources:
     front_matter = source.read_text().split("---", 2)[1]
     assert not any(line.split(":", 1)[0].strip() == "date" for line in front_matter.splitlines()), source
@@ -52,7 +51,7 @@ for path in pages:
         assert target.is_file(), f"Broken local link in {path}: {link}"
 
 sitemap = (output / "sitemap.xml").read_text()
-assert "/writing/" in sitemap and "404" not in sitemap, "sitemap.xml should list writings but not the 404 page"
+assert ("/writing/" in sitemap) == bool(sources) and "404" not in sitemap, "sitemap.xml should list writings but not the 404 page"
 
 # 고양이 스프라이트: cats.js 의 행 순서 = scripts/cat_sprites.py 의 행 순서, 그림 크기 = 칸 크기 x 열·행 수
 sprite_consts = {}

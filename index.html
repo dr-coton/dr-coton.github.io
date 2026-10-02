@@ -14,6 +14,7 @@ layout: default
     <h2 id="collection-title">모아둔 글</h2>
     <p id="writing-count" aria-live="polite" aria-atomic="true">{{ site.writings.size }}편의 글</p>
   </div>
+  {% if site.writings.size > 0 %}
   <div class="filters" data-filters hidden role="group" aria-label="글 주제 선택">
     <button type="button" data-filter="all" aria-pressed="true">전체</button>
     {% for topic in site.topics %}<button type="button" data-filter="{{ topic | escape }}" aria-pressed="false">{{ topic }}</button>{% endfor %}
@@ -31,7 +32,8 @@ layout: default
     </article>
     {% endfor %}
   </div>
-  {% assign samples = site.writings | where: 'sample', true %}
-  {% if samples.size > 0 %}<p class="collection-note">지금은 가상의 글로 이 공간을 가꾸는 중입니다.</p>{% endif %}
+  {% else %}
+  <p class="collection-note">아직 글이 없습니다.</p>
+  {% endif %}
 </section>
 <script src="{{ '/assets/filter.js' | relative_url }}" defer></script>
