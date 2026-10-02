@@ -5,7 +5,11 @@ topic: 개발
 description: 상품 이미지와 검색 키워드로 상품 검색을 만든 이야기.
 ---
 
-<link rel="stylesheet" href="{{ '/assets/search-notes.css' | relative_url }}">
+<script src="{{ '/assets/figures/search-common.js' | relative_url }}"></script>
+<script src="{{ '/assets/figures/search-data.js' | relative_url }}"></script>
+<script src="{{ '/assets/figures/search2-data.js' | relative_url }}"></script>
+<script src="{{ '/assets/figures/search-1.js' | relative_url }}"></script>
+<script src="{{ '/assets/figures/search-2.js' | relative_url }}"></script>
 
 쇼핑몰 검색창에 ‘흰색 운동화’를 치면 상품명에 그 글자가 들어간 상품이 나옵니다. 그런데 ‘화이트 스니커즈’는 안 나와요. 같은 흰 운동화인데 글자가 하나도 겹치지 않거든요. 사진을 올려서 비슷한 상품을 찾는 건 아예 할 수 없고요.
 
@@ -13,8 +17,8 @@ description: 상품 이미지와 검색 키워드로 상품 검색을 만든 이
 
 그래서 저희는 서버를 늘리지 않는 쪽으로 검색을 직접 만들었습니다. 상품 사진은 등록할 때 한 번만 읽고, 벡터는 상품 테이블에 함께 넣고, 순서는 점수 규칙으로 정합니다. 상품 1만 개, 검색어 검색 월 10만 번을 가정하면 추가 비용은 첫 등록에 약 1.70달러, 그 뒤로 한 달 약 0.24달러입니다.
 
-<figure class="search-figure">
-  <img src="{{ '/assets/search-notes/architecture.png' | relative_url }}" width="1080" height="640" alt="왼쪽 흔히 떠올리는 구성은 검색 서버, GPU 서버, 벡터 DB, 검색 엔진, 상품 DB로 이루어지고, GPU 서버와 벡터 DB와 검색 엔진에 항상 켜 둠 표시가 있습니다. 오른쪽 직접 만든 구성은 검색 서버, PostgreSQL, Voyage API, Modal GPU로 이루어집니다." loading="lazy">
+<figure class="fig-figure">
+  <div class="fig" data-fig="architecture" role="group" aria-label="왼쪽 흔히 떠올리는 구성은 검색 서버, GPU 서버, 벡터 DB, 검색 엔진, 상품 DB로 이루어지고, GPU 서버와 벡터 DB와 검색 엔진에 항상 켜 둠 표시가 있습니다. 오른쪽 직접 만든 구성은 검색 서버, PostgreSQL, Voyage API, Modal GPU로 이루어집니다."></div>
   <figcaption>흔히 떠올리는 구성(비교용)과 직접 만든 구성</figcaption>
 </figure>
 
@@ -24,11 +28,8 @@ description: 상품 이미지와 검색 키워드로 상품 검색을 만든 이
 
 키워드 검색은 상품명에 검색어 글자가 들어 있는지만 봅니다. ‘흰색’과 ‘운동화’가 모두 들어간 상품을 찾는 키워드 검색을 예시 상품 네 개에 직접 돌려 보면 바로 보입니다.
 
-<figure class="search-figure">
-  <picture>
-    <source srcset="{{ '/assets/search-notes/keyword-still.png' | relative_url }}" media="(prefers-reduced-motion: reduce)">
-    <img src="{{ '/assets/search-notes/keyword.gif' | relative_url }}" width="1080" height="640" alt="상품 네 개의 이름에서 흰색과 운동화라는 글자를 차례로 찾습니다. 흰색 운동화 A와 A 복제는 찾고, 화이트 스니커즈 B와 흰색 신발끈은 못 찾습니다. 마지막 줄의 사진으로 찾기는 검색할 수 없다고 표시됩니다." loading="lazy">
-  </picture>
+<figure class="fig-figure">
+  <div class="fig" data-fig="keyword" role="group" aria-label="상품 네 개의 이름에서 흰색과 운동화라는 글자를 차례로 찾습니다. 흰색 운동화 A와 A 복제는 찾고, 화이트 스니커즈 B와 흰색 신발끈은 못 찾습니다. 마지막 줄의 사진으로 찾기는 검색할 수 없다고 표시됩니다."></div>
   <figcaption>두 단어가 모두 들어간 상품만 찾는 키워드 검색 (예시)</figcaption>
 </figure>
 
@@ -45,8 +46,8 @@ description: 상품 이미지와 검색 키워드로 상품 검색을 만든 이
 
 상품이 1만 개여도 후보 모으기가 수백 개만 남기면, 순서 정하기는 그 수백 개만 계산하면 됩니다.
 
-<figure class="search-figure">
-  <img src="{{ '/assets/search-notes/funnel.png' | relative_url }}" width="1080" height="480" alt="전체 상품에서 후보, 순서 정하기, 검색 결과로 갈수록 상품 수가 줄어듭니다. 전체 상품 안의 빨간 점은 후보로 넘어가지 못하고 막힙니다." loading="lazy">
+<figure class="fig-figure">
+  <div class="fig" data-fig="funnel" role="group" aria-label="전체 상품에서 후보, 순서 정하기, 검색 결과로 갈수록 상품 수가 줄어듭니다. 전체 상품 안의 빨간 점은 후보로 넘어가지 못하고 막힙니다."></div>
   <figcaption>후보 모으기와 순서 정하기 (점의 개수는 설명용)</figcaption>
 </figure>
 
@@ -58,11 +59,8 @@ description: 상품 이미지와 검색 키워드로 상품 검색을 만든 이
 
 그래서 이미지 모델을 씁니다. 이미지 모델은 사진 한 장을 받아 숫자 수백 개로 된 목록을 돌려줍니다. 이 목록을 벡터, 또는 임베딩(embedding)이라고 부릅니다. 저희가 쓴 모델은 사진과 그 사진을 설명하는 글이 비슷한 숫자 목록이 되도록 학습한 모델이라, 비슷한 물건을 찍은 사진끼리도 비슷한 숫자 목록이 나옵니다.
 
-<figure class="search-figure">
-  <picture>
-    <source srcset="{{ '/assets/search-notes/embedding-still.png' | relative_url }}" media="(prefers-reduced-motion: reduce)">
-    <img src="{{ '/assets/search-notes/embedding.gif' | relative_url }}" width="1080" height="640" alt="운동화 A, 같은 운동화를 다른 각도에서 찍은 사진, 신발끈 사진이 차례로 이미지 모델을 거쳐 숫자 여섯 개로 된 목록이 됩니다. 운동화 A와 다른 각도 사진의 유사도는 0.99, 운동화 A와 신발끈의 유사도는 0.59로 표시됩니다." loading="lazy">
-  </picture>
+<figure class="fig-figure">
+  <div class="fig" data-fig="embedding" role="group" aria-label="운동화 A, 같은 운동화를 다른 각도에서 찍은 사진, 신발끈 사진이 차례로 이미지 모델을 거쳐 숫자 여섯 개로 된 목록이 됩니다. 운동화 A와 다른 각도 사진의 유사도는 0.99, 운동화 A와 신발끈의 유사도는 0.59로 표시됩니다."></div>
   <figcaption>사진이 숫자 목록이 되는 과정 (예시 값, 실제 수백 개 중 6개만 표시)</figcaption>
 </figure>
 
@@ -92,11 +90,8 @@ with torch.no_grad():
 
 그런데 상품 사진은 어떤 검색이 들어와도 그대로입니다. 그러니 미리 바꿔 두면 됩니다. 상품을 등록할 때 사진을 벡터로 바꿔 저장해 두고, 검색할 때는 사용자가 올린 사진 한 장만 벡터로 바꿔서 저장된 벡터와 비교합니다.
 
-<figure class="search-figure">
-  <picture>
-    <source srcset="{{ '/assets/search-notes/flow-still.png' | relative_url }}" media="(prefers-reduced-motion: reduce)">
-    <img src="{{ '/assets/search-notes/flow.gif' | relative_url }}" width="1080" height="700" alt="위쪽 상품 등록 단계에서 사진 여덟 장이 GPU의 이미지 모델을 거쳐 벡터가 되고 products 표에 저장됩니다. 아래쪽 검색 요청 단계에서는 사진 한 장만 CPU의 이미지 모델을 거쳐 벡터가 되고, 저장된 벡터 여덟 개와 비교해 가장 가까운 세 개를 고릅니다." loading="lazy">
-  </picture>
+<figure class="fig-figure">
+  <div class="fig" data-fig="flow" role="group" aria-label="위쪽 상품 등록 단계에서 사진 여덟 장이 GPU의 이미지 모델을 거쳐 벡터가 되고 products 표에 저장됩니다. 아래쪽 검색 요청 단계에서는 사진 한 장만 CPU의 이미지 모델을 거쳐 벡터가 되고, 저장된 벡터 여덟 개와 비교해 가장 가까운 세 개를 고릅니다."></div>
   <figcaption>등록할 때와 검색할 때의 흐름 (모식도, 예시 벡터로 계산)</figcaption>
 </figure>
 
@@ -104,11 +99,8 @@ with torch.no_grad():
 
 상품 수에 따라 그려 보면 차이가 더 분명합니다. 가로축은 상품 수, 세로축은 검색 한 번에 모델이 처리하는 사진 수입니다.
 
-<figure class="search-figure">
-  <picture>
-    <source srcset="{{ '/assets/search-notes/per-search-still.png' | relative_url }}" media="(prefers-reduced-motion: reduce)">
-    <img src="{{ '/assets/search-notes/per-search.gif' | relative_url }}" width="1080" height="600" alt="가로축 상품 수가 0에서 10만으로 늘어날 때, 검색마다 전부 바꾸는 방식은 모델에 넣는 사진 수가 10만 장까지 늘고, 미리 바꿔 두는 방식은 1장에 머뭅니다." loading="lazy">
-  </picture>
+<figure class="fig-figure">
+  <div class="fig" data-fig="per-search" role="group" aria-label="가로축 상품 수가 0에서 10만으로 늘어날 때, 검색마다 전부 바꾸는 방식은 모델에 넣는 사진 수가 10만 장까지 늘고, 미리 바꿔 두는 방식은 1장에 머뭅니다."></div>
   <figcaption>검색 한 번에 모델이 처리하는 사진 수 (측정값이 아닌 정의상 개수)</figcaption>
 </figure>
 
@@ -137,11 +129,8 @@ with torch.no_grad():
 
 아래는 숫자가 두 개뿐인 벡터로 그린 예시입니다. 검은 화살표가 검색 벡터이고, 오른쪽 목록은 P, Q, R과의 유사도를 큰 순서로 보여줍니다. 점선은 두 벡터의 한가운데예요.
 
-<figure class="search-figure">
-  <picture>
-    <source srcset="{{ '/assets/search-notes/cosine-still.png' | relative_url }}" media="(prefers-reduced-motion: reduce)">
-    <img src="{{ '/assets/search-notes/cosine.gif' | relative_url }}" width="1080" height="600" alt="반원 위에 P(20도), Q(80도), R(150도) 방향의 벡터가 있고, 검색 벡터가 15도에서 165도 사이를 왕복합니다. 오른쪽 목록은 각 벡터와의 코사인 유사도를 큰 순서로 보여주며, 검색 벡터가 50도를 넘으면 Q가 P를 앞서고 115도를 넘으면 R이 Q를 앞섭니다." loading="lazy">
-  </picture>
+<figure class="fig-figure">
+  <div class="fig" data-fig="cosine" role="group" aria-label="반원 위에 P(20도), Q(80도), R(150도) 방향의 벡터가 있고, 검색 벡터가 15도에서 165도까지 돌아갑니다. 오른쪽 목록은 각 벡터와의 코사인 유사도를 큰 순서로 보여주며, 검색 벡터가 50도를 넘으면 Q가 P를 앞서고 115도를 넘으면 R이 Q를 앞섭니다."></div>
   <figcaption>각도와 코사인 유사도 (모델 출력이 아닌 2차원 예시)</figcaption>
 </figure>
 
@@ -149,11 +138,8 @@ with torch.no_grad():
 
 그럼 숫자가 수백 개일 때는 어떻게 계산할까요? 앞에서 벡터 길이를 1로 맞춘 게 여기서 쓰입니다. 길이가 모두 1이면, 같은 자리의 숫자끼리 곱해서 모두 더한 값(내적)이 곧 코사인 유사도입니다.
 
-<figure class="search-figure">
-  <picture>
-    <source srcset="{{ '/assets/search-notes/dot-still.png' | relative_url }}" media="(prefers-reduced-motion: reduce)">
-    <img src="{{ '/assets/search-notes/dot.gif' | relative_url }}" width="1080" height="560" alt="검색 벡터와 상품 벡터의 숫자 여섯 개를 같은 자리끼리 곱해 0.25, 0.07, 0.22, 0.01, 0.25, 0.17을 만들고, 모두 더한 0.97이 코사인 유사도로 표시됩니다." loading="lazy">
-  </picture>
+<figure class="fig-figure">
+  <div class="fig" data-fig="dot" role="group" aria-label="검색 벡터와 상품 벡터의 숫자 여섯 개를 같은 자리끼리 곱해 0.25, 0.07, 0.22, 0.01, 0.25, 0.17을 만들고, 모두 더한 0.97이 코사인 유사도로 표시됩니다."></div>
   <figcaption>같은 자리끼리 곱해서 더하기 (예시 벡터, 소수 둘째 자리까지 표시)</figcaption>
 </figure>
 
@@ -171,11 +157,8 @@ LIMIT :candidate_limit;
 
 `<=>`는 두 벡터의 코사인 거리를 구하는 연산자입니다. 거리는 `1 - 유사도`라서, 유사도가 0.97이면 거리는 0.03이에요. 거리가 작은 순서로 정렬해서 앞에서부터 정해진 개수만 가져옵니다. 상품 여덟 개로 보면 이렇습니다.
 
-<figure class="search-figure">
-  <picture>
-    <source srcset="{{ '/assets/search-notes/pgvector-still.png' | relative_url }}" media="(prefers-reduced-motion: reduce)">
-    <img src="{{ '/assets/search-notes/pgvector.gif' | relative_url }}" width="1080" height="940" alt="상품 여덟 개에 거리가 하나씩 채워진 뒤 거리 순으로 다시 정렬됩니다. 운동화 A와 A 복제가 0.03, 스니커즈 B가 0.12로 가장 가깝고, LIMIT 3 선 아래의 신발끈, 샌들 C, 슬리퍼 D, 모자 F, 머그컵 E는 흐려집니다." loading="lazy">
-  </picture>
+<figure class="fig-figure">
+  <div class="fig" data-fig="pgvector" role="group" aria-label="상품 여덟 개에 거리가 하나씩 채워진 뒤 거리 순으로 다시 정렬됩니다. 운동화 A와 A 복제가 0.03, 스니커즈 B가 0.12로 가장 가깝고, LIMIT 3 선 아래의 신발끈, 샌들 C, 슬리퍼 D, 모자 F, 머그컵 E는 흐려집니다."></div>
   <figcaption>ORDER BY 거리 LIMIT 3 (거리는 예시 값, 실제 개수는 :candidate_limit)</figcaption>
 </figure>
 
@@ -191,8 +174,8 @@ LIMIT :candidate_limit;
 
 글자를 벡터로 비교하면 표기가 달라도 뜻이 비슷한 상품이 가까이 옵니다. 검색어 주변에 무엇이 모이는지 개념도로 보면 이렇습니다.
 
-<figure class="search-figure">
-  <img src="{{ '/assets/search-notes/text-space.png' | relative_url }}" width="1080" height="620" alt="흰색 운동화라는 검색어 주변의 원 안에 흰색 운동화 A, A 복제, 화이트 스니커즈 B, 흰색 신발끈이 있고, 원 밖 멀리에 검정 구두, 가죽 지갑, 흰색 머그컵이 있습니다." loading="lazy">
+<figure class="fig-figure">
+  <div class="fig" data-fig="text-space" role="group" aria-label="흰색 운동화라는 검색어 주변의 원 안에 흰색 운동화 A, A 복제, 화이트 스니커즈 B, 흰색 신발끈이 있고, 원 밖 멀리에 검정 구두, 가죽 지갑, 흰색 머그컵이 있습니다."></div>
   <figcaption>검색어 벡터 근처의 상품 (개념도, 실제 벡터를 옮긴 그림이 아님)</figcaption>
 </figure>
 
@@ -205,11 +188,8 @@ LIMIT :candidate_limit;
 
 아래 예시에서는 ‘화이트’가 ‘흰색’과, ‘스니커즈’가 ‘운동화’와 같은 말로 묶여 있고, 벡터로는 두 개만 가져온다고 가정했습니다.
 
-<figure class="search-figure">
-  <picture>
-    <source srcset="{{ '/assets/search-notes/candidates-still.png' | relative_url }}" media="(prefers-reduced-motion: reduce)">
-    <img src="{{ '/assets/search-notes/candidates.gif' | relative_url }}" width="1080" height="880" alt="검색어 흰색 운동화에 대해 상품 네 개가 있습니다. 벡터로 찾으면 유사도가 높은 신발끈과 운동화 A만 가져오고, 이때 스니커즈 B는 후보에 없다고 표시됩니다. 이어서 단어로 찾으면 운동화 A, A 복제, 스니커즈 B를 가져오고, 합친 후보에는 네 상품이 한 번씩 들어갑니다." loading="lazy">
-  </picture>
+<figure class="fig-figure">
+  <div class="fig" data-fig="candidates" role="group" aria-label="검색어 흰색 운동화에 대해 상품 네 개가 있습니다. 벡터로 찾으면 유사도가 높은 신발끈과 운동화 A만 가져오고, 이때 스니커즈 B는 후보에 없다고 표시됩니다. 이어서 단어로 찾으면 운동화 A, A 복제, 스니커즈 B를 가져오고, 합친 후보에는 네 상품이 한 번씩 들어갑니다."></div>
   <figcaption>벡터로 찾기와 단어로 찾기 (유사도는 설명용 값, 실제 후보 수는 훨씬 많음)</figcaption>
 </figure>
 
@@ -232,8 +212,8 @@ WITH semantic AS (
 
 단어로 찾을 때는 몇 가지 규칙이 있습니다. ‘운동화’와 ‘스니커즈’처럼 뜻이 같은 단어는 사전에 묶어 둡니다. 사전에 없는 말은 묶이지 않아요. 짧은 단어도 조심해야 합니다. ‘아이’를 찾는데 ‘아이스’까지 걸리면 곤란하니까, 일부 짧은 단어는 단어 단위로 맞는지 확인합니다.
 
-<figure class="search-figure">
-  <img src="{{ '/assets/search-notes/word-boundary.png' | relative_url }}" width="1080" height="380" alt="아이 운동화는 아이라는 단어가 따로 있어 일치로 표시되고, 아이스 쿨토시는 아이라는 글자가 아이스라는 한 단어 안에 있어 제외로 표시됩니다." loading="lazy">
+<figure class="fig-figure">
+  <div class="fig" data-fig="word-boundary" role="group" aria-label="아이 운동화는 아이라는 단어가 따로 있어 일치로 표시되고, 아이스 쿨토시는 아이라는 글자가 아이스라는 한 단어 안에 있어 제외로 표시됩니다."></div>
   <figcaption>짧은 단어의 단어 단위 확인 (예시 상품명)</figcaption>
 </figure>
 
@@ -260,11 +240,8 @@ score = (
 
 운동화 A는 0.60 × 0.98 + 0.25 × 1 + 0.15 × 1 = 0.988이고, 신발끈은 0.60 × 0.995 + 0.25 × 0.5 + 0.15 × 0 = 0.722입니다. 막대 하나가 상품 하나이고, 파란 조각이 유사도, 보라 조각이 단어, 초록 조각이 종류예요.
 
-<figure class="search-figure">
-  <picture>
-    <source srcset="{{ '/assets/search-notes/score-still.png' | relative_url }}" media="(prefers-reduced-motion: reduce)">
-    <img src="{{ '/assets/search-notes/score.gif' | relative_url }}" width="1080" height="640" alt="네 상품의 점수 막대가 유사도, 단어, 종류 조각 순으로 쌓입니다. 운동화 A 0.988, A 복제 0.982, 스니커즈 B 0.952는 세 조각이 모두 쌓이고, 신발끈은 단어 조각이 절반이고 종류 조각이 없어 0.722로 맨 아래로 내려갑니다." loading="lazy">
-  </picture>
+<figure class="fig-figure">
+  <div class="fig" data-fig="score" role="group" aria-label="네 상품의 점수 막대가 유사도, 단어, 종류 조각 순으로 쌓입니다. 운동화 A 0.988, A 복제 0.982, 스니커즈 B 0.952는 세 조각이 모두 쌓이고, 신발끈은 단어 조각이 절반이고 종류 조각이 없어 0.722로 맨 아래로 내려갑니다."></div>
   <figcaption>점수를 이루는 세 조각 (유사도는 설명용 값)</figcaption>
 </figure>
 
@@ -284,8 +261,8 @@ score = (
 
 이름이 겹치는 정도는 Jaccard 유사도로 잽니다. 두 이름에 함께 나오는 단어 수를, 두 이름에 나온 단어를 중복 없이 모은 수로 나눈 값이에요. 사진이 같으면 이름과 상관없이 겹침을 1로 봅니다.
 
-<figure class="search-figure">
-  <img src="{{ '/assets/search-notes/jaccard.png' | relative_url }}" width="1080" height="560" alt="흰색 운동화 A와 흰색 운동화 A 복제는 흰색, 운동화, A가 겹쳐 3 나누기 4로 0.75입니다. 흰색 운동화 A와 화이트 스니커즈 B는 겹치는 단어가 없어 0 나누기 6으로 0입니다." loading="lazy">
+<figure class="fig-figure">
+  <div class="fig" data-fig="jaccard" role="group" aria-label="흰색 운동화 A와 흰색 운동화 A 복제는 흰색, 운동화, A가 겹쳐 3 나누기 4로 0.75입니다. 흰색 운동화 A와 화이트 스니커즈 B는 겹치는 단어가 없어 0 나누기 6으로 0입니다."></div>
   <figcaption>상품명의 Jaccard 유사도</figcaption>
 </figure>
 
@@ -293,11 +270,8 @@ score = (
 
 이제 같은 네 후보를 세 번 줄 세워 볼게요. ① 유사도만, ② 단어와 종류 반영, ③ 겹침 감점 순서입니다.
 
-<figure class="search-figure">
-  <picture>
-    <source srcset="{{ '/assets/search-notes/ranking-still.png' | relative_url }}" media="(prefers-reduced-motion: reduce)">
-    <img src="{{ '/assets/search-notes/ranking.gif' | relative_url }}" width="1080" height="720" alt="같은 네 후보를 세 단계로 정렬합니다. 유사도만 쓰면 신발끈, 운동화 A, A 복제, 스니커즈 B 순서입니다. 단어와 종류를 반영하면 운동화 A 0.988, A 복제 0.982, 스니커즈 B 0.952, 신발끈 0.722 순서가 됩니다. 겹침 감점을 적용하면 운동화 A를 고른 뒤 A 복제에서 0.080, 스니커즈 B에서 0.039, 신발끈에서 0.050을 깎아 스니커즈 B가 2위, A 복제가 3위가 됩니다." loading="lazy">
-  </picture>
+<figure class="fig-figure">
+  <div class="fig" data-fig="ranking" role="group" aria-label="같은 네 후보를 세 단계로 정렬합니다. 유사도만 쓰면 신발끈, 운동화 A, A 복제, 스니커즈 B 순서입니다. 단어와 종류를 반영하면 운동화 A 0.988, A 복제 0.982, 스니커즈 B 0.952, 신발끈 0.722 순서가 됩니다. 겹침 감점을 적용하면 운동화 A를 고른 뒤 A 복제에서 0.080, 스니커즈 B에서 0.039, 신발끈에서 0.050을 깎아 스니커즈 B가 2위, A 복제가 3위가 됩니다."></div>
   <figcaption>같은 후보를 세 번 줄 세우기 (단계 숫자가 클수록 먼저 나옴)</figcaption>
 </figure>
 
@@ -337,8 +311,8 @@ priority = tier + score - redundancy
 - 첫 등록(상품명): 1만 개 × 50토큰 = 50만 토큰 → 0.06달러
 - 매달(검색어): 10만 번 × 20토큰 = 200만 토큰 → 0.24달러
 
-<figure class="search-figure">
-  <img src="{{ '/assets/search-notes/cost.png' | relative_url }}" width="1080" height="540" alt="예시 쇼핑몰의 한 달 비용 막대그래프입니다. 흔히 떠올리는 구성은 T4 GPU 한 장을 24시간 켜 두는 데 425.09달러, Pinecone Standard 벡터 DB에 최소 50달러가 매달 듭니다. 직접 만든 구성은 검색어 벡터에 매달 0.24달러, 첫 등록에 한 번 1.70달러가 듭니다." loading="lazy">
+<figure class="fig-figure">
+  <div class="fig" data-fig="cost" role="group" aria-label="예시 쇼핑몰의 한 달 비용 막대그래프입니다. 흔히 떠올리는 구성은 T4 GPU 한 장을 24시간 켜 두는 데 425.09달러, Pinecone Standard 벡터 DB에 최소 50달러가 매달 듭니다. 직접 만든 구성은 검색어 벡터에 매달 0.24달러, 첫 등록에 한 번 1.70달러가 듭니다."></div>
   <figcaption>예시 쇼핑몰의 한 달 비용 (2026년 10월 2일 공식 단가 기준, 무료 사용량과 검색 서버 비용 제외)</figcaption>
 </figure>
 
@@ -370,8 +344,8 @@ priority = tier + score - redundancy
 
 검색 결과가 이상할 때는 원하는 상품이 후보에 있었는지부터 봅니다. 검색을 두 단계로 나눠 둔 덕분에, 어디를 고쳐야 할지 금방 좁혀져요.
 
-<figure class="search-figure">
-  <img src="{{ '/assets/search-notes/debug.png' | relative_url }}" width="1080" height="560" alt="원하는 상품이 후보에 있었는지 묻는 상자에서 두 갈래로 나뉩니다. 아니요이면 후보 문제로 벡터 검색 결과, 단어 찾기 규칙, 후보 개수를 보고, 예이면 순서 문제로 단어 묶음, 상품 종류 판별, 점수와 감점을 봅니다." loading="lazy">
+<figure class="fig-figure">
+  <div class="fig" data-fig="debug" role="group" aria-label="원하는 상품이 후보에 있었는지 묻는 상자에서 두 갈래로 나뉩니다. 아니요이면 후보 문제로 벡터 검색 결과, 단어 찾기 규칙, 후보 개수를 보고, 예이면 순서 문제로 단어 묶음, 상품 종류 판별, 점수와 감점을 봅니다."></div>
   <figcaption>검색 결과가 이상할 때 확인하는 순서</figcaption>
 </figure>
 

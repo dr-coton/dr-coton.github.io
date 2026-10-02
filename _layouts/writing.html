@@ -9,7 +9,9 @@ layout: default
     {% if page.description %}<p class="writing-description">{{ page.description | escape }}</p>{% endif %}
   </header>
   {% if page.thumb %}<img class="thumb" src="{{ page.thumb | relative_url }}" width="1200" height="800" alt="">{% endif %}
+  {% if content contains 'data-fig=' %}<link rel="stylesheet" href="{{ '/assets/figures.css' | relative_url }}?v={{ site.time | date: '%s' }}">{% endif %}
   <div class="prose">{{ content }}</div>
+  {% if content contains 'data-fig=' %}<script src="{{ '/assets/figures.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>{% endif %}
   <script>
     // 코드 블록 제목 막대에 언어 이름과 복사 버튼. soft-nav.js가 다시 실행하므로 전역 변수를 만들지 않는다
     document.querySelectorAll('div.highlighter-rouge').forEach(function (e) {

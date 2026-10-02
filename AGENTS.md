@@ -1,7 +1,8 @@
 # Blog Writing
 
 Before drafting, revising, or illustrating a blog article, read
-`docs/writing-guide.md` and apply its editorial and animation guidance.
+`docs/writing-guide.md` and apply its editorial and animation guidance. Figures are SVG
+drawn in the browser; before adding or changing one, also read `docs/figure-runtime.md`.
 The user's current instructions take precedence. Treat the guide as a living
 record of preferences, not a fixed article template.
 

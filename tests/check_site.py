@@ -1,9 +1,10 @@
-"""Run after `bundle exec jekyll build`: python3 tests/check_site.py."""
+"""Run after `bundle exec jekyll build`: python3 tests/check_site.py [빌드 폴더]."""
 import ast
 from html.parser import HTMLParser
 from pathlib import Path
 import re
 import struct
+import sys
 from urllib.parse import unquote, urlsplit
 
 
@@ -28,7 +29,7 @@ class Page(HTMLParser):
 
 
 root = Path(__file__).resolve().parents[1]
-output = root / "_site"
+output = Path(sys.argv[1]) if len(sys.argv) > 1 else root / "_site"  # 빌드 위치를 따로 지정할 수 있다
 sources = list((root / "_writings").glob("*.md"))
 for source in sources:
     front_matter = source.read_text().split("---", 2)[1]
@@ -49,6 +50,13 @@ for path in pages:
         if target.is_dir():
             target /= "index.html"
         assert target.is_file(), f"Broken local link in {path}: {link}"
+
+# 글 속 그림: 글의 data-fig 이름마다 assets/figures/*.js 에 F.define('이름')이 있어야 하고, 이름은 글 안에서 겹치지 않는다
+defined = set(re.findall(r"""\.define\(\s*['"]([\w-]+)['"]""", "".join(p.read_text() for p in (root / "assets" / "figures").glob("*.js"))))
+for source in sources:
+    names = re.findall(r'data-fig="([\w-]+)"', source.read_text())
+    assert len(names) == len(set(names)), f"Duplicate figure in {source}"
+    assert set(names) <= defined, f"Figure without a definition in {source}: {sorted(set(names) - defined)}"
 
 sitemap = (output / "sitemap.xml").read_text()
 assert ("/writing/" in sitemap) == bool(sources) and "404" not in sitemap, "sitemap.xml should list writings but not the 404 page"

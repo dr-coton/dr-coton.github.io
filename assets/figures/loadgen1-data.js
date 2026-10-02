@@ -1,0 +1,2 @@
+/* scripts/figure_data/loadgen1.py 가 만든 파일 - 직접 고치지 않는다 */
+(window.FigureModules = window.FigureModules || []).push(function (F) { F.setData("loadgen1", {"journey":{"rtt":30,"device":60,"server":120,"phases":[["connecting",30],["tls_handshaking",60],["sending",2],["waiting",210],["receiving",8]],"duration":220},"rtt":{"server":120,"rows":[{"rtt":1,"new":123,"reuse":121},{"rtt":30,"new":210,"reuse":150},{"rtt":150,"new":570,"reuse":270}]}}); });

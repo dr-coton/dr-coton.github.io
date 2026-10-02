@@ -5,7 +5,12 @@ topic: 개발
 description: 부하테스트에서 k6 응답시간과 APM 응답시간이 다를 때, k6의 구간별 지표로 원인이 서버인지 네트워크, 보안장비, 부하발생기인지 가려내는 방법을 실험과 그림으로 정리했습니다.
 ---
 
-<link rel="stylesheet" href="{{ '/assets/search-notes.css' | relative_url }}">
+<script src="{{ '/assets/figures/loadgen-data.js' | relative_url }}"></script>
+<script src="{{ '/assets/figures/loadgen1-data.js' | relative_url }}"></script>
+<script src="{{ '/assets/figures/loadgen2-data.js' | relative_url }}"></script>
+<script src="{{ '/assets/figures/loadgen-common.js' | relative_url }}"></script>
+<script src="{{ '/assets/figures/loadgen-1.js' | relative_url }}"></script>
+<script src="{{ '/assets/figures/loadgen-2.js' | relative_url }}"></script>
 
 부하테스트 결과를 열었더니 k6의 응답시간 p95가 3초인 장면을 가정해 보겠습니다. 같은 시간대 APM에서 WAS의 응답시간은 200ms 안팎이에요. 서버는 빠르게 처리했다는데 부하발생기는 느리다고 말합니다. 어느 쪽이 맞을까요?
 
@@ -23,8 +28,8 @@ description: 부하테스트에서 k6 응답시간과 APM 응답시간이 다를
 
 흔한 구성을 그려 보면 이렇습니다. 외부 부하발생기에서 출발한 요청은 방화벽과 WAF, 로드밸런서를 지나 WAS에 닿고, WAS는 DB를 부릅니다.
 
-<figure class="search-figure">
-  <img src="{{ '/assets/loadgen-notes/path.png' | relative_url }}" width="1080" height="560" alt="왼쪽부터 외부 부하발생기, 방화벽과 WAF, 로드밸런서, WAS, DB가 화살표로 이어져 있습니다. 파란 괄호는 부하발생기에서 WAS까지를 k6가 재는 구간으로, 초록 괄호는 WAS와 DB만을 APM이 재는 구간으로 표시합니다. 위쪽의 내부 부하발생기는 WAS로 바로 연결되며, 이 시험에는 방화벽과 로드밸런서와 바깥 구간이 없다고 적혀 있습니다." loading="lazy">
+<figure class="fig-figure">
+  <div class="fig" data-fig="path" role="group" aria-label="왼쪽부터 외부 부하발생기, 방화벽과 WAF, 로드밸런서, WAS, DB가 화살표로 이어져 있습니다. 파란 괄호는 부하발생기에서 WAS까지를 k6가 재는 구간으로, 초록 괄호는 WAS와 DB만을 APM이 재는 구간으로 표시합니다. 위쪽의 내부 부하발생기는 WAS로 바로 연결되며, 이 시험에는 방화벽과 로드밸런서와 바깥 구간이 없다고 적혀 있습니다."></div>
   <figcaption>요청이 지나가는 길과 k6, APM이 재는 구간 (모식도)</figcaption>
 </figure>
 
@@ -32,11 +37,8 @@ description: 부하테스트에서 k6 응답시간과 APM 응답시간이 다를
 
 요청 하나가 이 길을 지날 때 시간이 어떻게 쌓이는지 예시 값으로 따라가 보겠습니다. 왕복 30ms, 보안장비의 검사 60ms, 서버가 일한 시간 120ms라고 가정했어요.
 
-<figure class="search-figure">
-  <picture>
-    <source srcset="{{ '/assets/loadgen-notes/journey-still.png' | relative_url }}" media="(prefers-reduced-motion: reduce)">
-    <img src="{{ '/assets/loadgen-notes/journey.gif' | relative_url }}" width="1080" height="620" alt="요청 알갱이가 부하발생기에서 방화벽, 로드밸런서, WAS로 움직이는 동안 아래 막대가 차례로 채워집니다. 연결 30ms, TLS 60ms, 보내기 2ms, 기다림 210ms, 받기 8ms입니다. 기다림 210ms는 왕복 30ms, 장비 검사 60ms, 서버 120ms로 나뉘고 서버 120ms만 APM이 잽니다. 마지막에 k6 duration은 220ms, APM은 120ms, 연결 90ms는 duration 밖이라고 표시됩니다." loading="lazy">
-  </picture>
+<figure class="fig-figure">
+  <div class="fig" data-fig="journey" role="group" aria-label="요청 알갱이가 부하발생기에서 방화벽, 로드밸런서, WAS로 움직이는 동안 아래 막대가 차례로 채워집니다. 연결 30ms, TLS 60ms, 보내기 2ms, 기다림 210ms, 받기 8ms입니다. 기다림 210ms는 왕복 30ms, 장비 검사 60ms, 서버 120ms로 나뉘고 서버 120ms만 APM이 잽니다. 마지막에 k6 duration은 220ms, APM은 120ms, 연결 90ms는 duration 밖이라고 표시됩니다."></div>
   <figcaption>요청 하나가 지나가는 동안 쌓이는 시간 (모식도, 예시 값)</figcaption>
 </figure>
 
@@ -46,8 +48,8 @@ description: 부하테스트에서 k6 응답시간과 APM 응답시간이 다를
 
 k6는 요청 하나를 이런 구간으로 나눠서 지표로 남깁니다. 정의는 [k6 문서](https://grafana.com/docs/k6/latest/using-k6/metrics/reference/)를 따랐습니다.
 
-<figure class="search-figure">
-  <img src="{{ '/assets/loadgen-notes/timeline.png' | relative_url }}" width="1080" height="600" alt="connecting, TLS, sending, waiting, receiving 다섯 구간이 이어진 막대입니다. connecting과 TLS를 묶는 괄호는 http_req_blocked이고, sending과 waiting과 receiving을 묶는 괄호는 http_req_duration입니다. 아래에 blocked는 http_req_duration에 들어가지 않고, 연결을 재사용하면 connecting과 tls는 0이라고 적혀 있습니다." loading="lazy">
+<figure class="fig-figure">
+  <div class="fig" data-fig="timeline" role="group" aria-label="connecting, TLS, sending, waiting, receiving 다섯 구간이 이어진 막대입니다. connecting과 TLS를 묶는 괄호는 http_req_blocked이고, sending과 waiting과 receiving을 묶는 괄호는 http_req_duration입니다. 아래에 blocked는 http_req_duration에 들어가지 않고, 연결을 재사용하면 connecting과 tls는 0이라고 적혀 있습니다."></div>
   <figcaption>k6가 요청 하나를 나눠 재는 구간 (모식도, 길이는 실제 비율이 아님)</figcaption>
 </figure>
 
@@ -95,11 +97,8 @@ blocked는 문서에 ‘연결 슬롯을 기다린 시간’이라고 짧게 적
 
 이 구간을 키우려면 TLS를 끝내는 장비가 느린 상황을 가정하면 됩니다. 연결은 바로 받지만 TLS 협상은 300ms 뒤에야 시작하는 가짜 장비를 앞에 두고, 세 경우를 비교했습니다.
 
-<figure class="search-figure">
-  <picture>
-    <source srcset="{{ '/assets/loadgen-notes/tls-still.png' | relative_url }}" media="(prefers-reduced-motion: reduce)">
-    <img src="{{ '/assets/loadgen-notes/tls.gif' | relative_url }}" width="1080" height="640" alt="세 경우의 blocked 막대와 duration 막대를 비교합니다. 지연 없이 요청마다 새 연결을 맺으면 blocked 7ms, duration 55ms입니다. 연결 지연 300ms에서 요청마다 새 연결을 맺으면 blocked만 316ms로 길어지고 duration은 54ms입니다. 같은 지연에서 연결을 재사용하면 blocked 3ms, duration 54ms입니다." loading="lazy">
-  </picture>
+<figure class="fig-figure">
+  <div class="fig" data-fig="tls" role="group" aria-label="세 경우의 blocked 막대와 duration 막대를 비교합니다. 지연 없이 요청마다 새 연결을 맺으면 blocked 7ms, duration 55ms입니다. 연결 지연 300ms에서 요청마다 새 연결을 맺으면 blocked만 316ms로 길어지고 duration은 54ms입니다. 같은 지연에서 연결을 재사용하면 blocked 3ms, duration 54ms입니다."></div>
   <figcaption>세 경우의 blocked와 duration (실험, 평균)</figcaption>
 </figure>
 
@@ -115,8 +114,8 @@ blocked는 문서에 ‘연결 슬롯을 기다린 시간’이라고 짧게 적
 
 거리가 멀수록 연결 구간이 얼마나 커지는지는 계산으로 볼 수 있습니다. TCP 연결에 1왕복, TLS 1.3 핸드셰이크에 1왕복([TLS 1.2는 2왕복](https://blog.cloudflare.com/introducing-tls-1-3/)), 요청을 보내고 첫 바이트를 받는 데 1왕복이 들어요. 서버가 일한 시간은 120ms로 두었습니다.
 
-<figure class="search-figure">
-  <img src="{{ '/assets/loadgen-notes/rtt.png' | relative_url }}" width="1080" height="560" alt="왕복 시간이 1ms, 30ms, 150ms일 때 새 연결의 첫 요청과 연결을 재사용한 요청의 총 시간을 막대로 비교합니다. 왕복 1ms는 123ms와 121ms, 30ms는 210ms와 150ms, 150ms는 570ms와 270ms입니다. 서버가 일한 시간 120ms는 모든 경우에 같습니다." loading="lazy">
+<figure class="fig-figure">
+  <div class="fig" data-fig="rtt" role="group" aria-label="왕복 시간이 1ms, 30ms, 150ms일 때 새 연결의 첫 요청과 연결을 재사용한 요청의 총 시간을 막대로 비교합니다. 왕복 1ms는 123ms와 121ms, 30ms는 210ms와 150ms, 150ms는 570ms와 270ms입니다. 서버가 일한 시간 120ms는 모든 경우에 같습니다."></div>
   <figcaption>왕복 시간에 따른 요청 시간 (계산, TLS 1.3, 서버가 일한 시간 120ms)</figcaption>
 </figure>
 
@@ -128,8 +127,8 @@ sending은 요청을 보내는 시간입니다. 요청이 작으면 거의 0이�
 
 서버가 본문을 읽는 속도를 8,192KB/s로 제한하고 8MB를 올려 봤습니다. VU는 2개라서 둘이 한도를 나눠 씁니다.
 
-<figure class="search-figure">
-  <img src="{{ '/assets/loadgen-notes/upload.png' | relative_url }}" width="1080" height="480" alt="업로드 요청 하나의 막대입니다. sending 1,190ms, waiting 716ms, receiving 0.1ms로 합계 1,907ms입니다. sending은 운영체제 버퍼에 다 넣을 때까지이고, 서버가 본문을 다 읽을 때까지 1,907ms 중 716ms는 waiting에 잡힌다고 적혀 있습니다." loading="lazy">
+<figure class="fig-figure">
+  <div class="fig" data-fig="upload" role="group" aria-label="업로드 요청 하나의 막대입니다. sending 1,190ms, waiting 716ms, receiving 0.1ms로 합계 1,907ms입니다. sending은 운영체제 버퍼에 다 넣을 때까지이고, 서버가 본문을 다 읽을 때까지 1,907ms 중 716ms는 waiting에 잡힌다고 적혀 있습니다."></div>
   <figcaption>8MB 업로드 요청 하나의 구간 (실험, 서버가 읽는 속도 8,192KB/s로 제한)</figcaption>
 </figure>
 
@@ -143,11 +142,8 @@ waiting은 k6가 요청을 다 보낸 뒤 응답의 첫 바이트가 올 때까�
 
 두 경우를 비교해 보겠습니다. 하나는 서버가 500ms 걸려서 느린 경우이고, 다른 하나는 보안장비가 450ms 검사하고 서버는 50ms만 일한 경우입니다. 서버가 일한 시간은 응답 헤더에 실어 보냈고, k6가 그 값을 읽습니다.
 
-<figure class="search-figure">
-  <picture>
-    <source srcset="{{ '/assets/loadgen-notes/gap-still.png' | relative_url }}" media="(prefers-reduced-motion: reduce)">
-    <img src="{{ '/assets/loadgen-notes/gap.gif' | relative_url }}" width="1080" height="590" alt="두 경우의 k6 waiting 막대를 서버 시간과 나머지로 나눠 보여줍니다. 서버가 느린 경우 waiting은 503ms이고 거의 전부가 서버 시간 502ms입니다. 장비가 검사하느라 느린 경우 waiting은 504ms이지만 서버 시간은 52ms이고 나머지 452ms가 중간 구간입니다." loading="lazy">
-  </picture>
+<figure class="fig-figure">
+  <div class="fig" data-fig="gap" role="group" aria-label="두 경우의 k6 waiting 막대를 서버 시간과 나머지로 나눠 보여줍니다. 서버가 느린 경우 waiting은 503ms이고 거의 전부가 서버 시간 502ms입니다. 장비가 검사하느라 느린 경우 waiting은 504ms이지만 서버 시간은 52ms이고 나머지 452ms가 중간 구간입니다."></div>
   <figcaption>waiting에서 서버가 일한 시간을 뺀 값 (실험, 평균)</figcaption>
 </figure>
 
@@ -187,11 +183,8 @@ receiving은 응답의 첫 바이트가 온 뒤 나머지를 다 받는 시간�
 
 응답은 256KB이고 서버가 내보내는 속도를 연결 전체 합쳐서 10,240KB/s로 제한했습니다. 이 회선으로는 1초에 256KB 응답을 40개(10,240 ÷ 256)까지 보낼 수 있어요. VU를 1개에서 32개까지 늘려 보겠습니다.
 
-<figure class="search-figure">
-  <picture>
-    <source srcset="{{ '/assets/loadgen-notes/bandwidth-still.png' | relative_url }}" media="(prefers-reduced-motion: reduce)">
-    <img src="{{ '/assets/loadgen-notes/bandwidth.gif' | relative_url }}" width="1080" height="640" alt="VU가 1, 2, 4, 8, 16, 32로 늘어나는 동안 왼쪽 막대그래프의 TPS는 8에서 40까지 늘다가 회선 한도 40에 붙습니다. 오른쪽 막대의 waiting은 101ms로 같고 서버 시간도 101ms인데, receiving은 24ms에서 695ms로 늘어납니다." loading="lazy">
-  </picture>
+<figure class="fig-figure">
+  <div class="fig" data-fig="bandwidth" role="group" aria-label="VU가 1, 2, 4, 8, 16, 32로 늘어나는 동안 왼쪽 막대그래프의 TPS는 8에서 40까지 늘다가 회선 한도 40에 붙습니다. 오른쪽 막대의 waiting은 101ms로 같고 서버 시간도 101ms인데, receiving은 24ms에서 695ms로 늘어납니다."></div>
   <figcaption>VU를 늘렸을 때의 TPS와 응답시간 (실험, 응답 256KB, 서버 한도 10,240KB/s, TPS는 VU ÷ 평균 응답시간으로 계산)</figcaption>
 </figure>
 
@@ -207,11 +200,8 @@ receiving이 높을 때 먼저 의심할 곳은 내려받는 회선, 응답 크�
 
 지금까지는 느려지는 경우였는데, 요청이 아예 서버에 닿지 않는 경우도 있습니다. 보안장비가 요청을 막거나 제한하면 서버는 그 요청을 받은 적이 없어요. 이런 상황이 시험 결과에 어떻게 보이는지 가짜 장비로 확인했습니다. k6가 초당 200건을 보내고, 장비는 초당 100건까지만 통과시키고 나머지는 429(Too Many Requests)로 바로 돌려보내는 가정입니다.
 
-<figure class="search-figure">
-  <picture>
-    <source srcset="{{ '/assets/loadgen-notes/security-still.png' | relative_url }}" media="(prefers-reduced-motion: reduce)">
-    <img src="{{ '/assets/loadgen-notes/security.gif' | relative_url }}" width="1080" height="640" alt="k6에서 점이 보안장비로 가고, 일부는 장비 앞에서 아래로 떨어지고 나머지는 WAS로 갑니다. 보낸 요청은 1,201건이고 장비가 막은 요청은 535건, WAS가 처리한 요청은 666건입니다. k6가 본 것은 실패율 44.5%에 평균 응답시간 28.5ms이고, APM이 본 것은 666건에 오류 0, 서버가 일한 시간 평균 50ms입니다." loading="lazy">
-  </picture>
+<figure class="fig-figure">
+  <div class="fig" data-fig="security" role="group" aria-label="k6에서 점이 보안장비로 가고, 일부는 장비 앞에서 아래로 떨어지고 나머지는 WAS로 갑니다. 보낸 요청은 1,201건이고 장비가 막은 요청은 535건, WAS가 처리한 요청은 666건입니다. k6가 본 것은 실패율 44.5%에 평균 응답시간 28.5ms이고, APM이 본 것은 666건에 오류 0, 서버가 일한 시간 평균 50ms입니다."></div>
   <figcaption>보안장비가 요청 일부를 막았을 때 k6와 APM이 본 것 (실험, 장비의 제한은 가정)</figcaption>
 </figure>
 
@@ -219,8 +209,8 @@ receiving이 높을 때 먼저 의심할 곳은 내려받는 회선, 응답 크�
 
 특정 도구를 막는 경우는 더 극단적입니다. 보안장비가 요청의 특징(같은 곳에서 짧은 시간에 몰리는 요청, 브라우저가 보내지 않는 헤더나 도구 고유의 User-Agent 등)을 보고 자동화 도구를 막는 경우가 있어요. 제품마다 기준이 다르니 이 글에서는 장비가 k6의 기본 User-Agent(`Grafana k6/<버전>`)를 막는다고 가정했습니다.
 
-<figure class="search-figure">
-  <img src="{{ '/assets/loadgen-notes/ua-block.png' | relative_url }}" width="1080" height="560" alt="같은 시험을 두 번 돌린 결과를 비교하는 두 카드입니다. 기본 User-Agent로는 TPS 40,574, 실패율 100%, 평균 응답시간 0.1ms이고 APM이 본 요청은 0입니다. 시험용으로 허용한 User-Agent로는 TPS 57, 실패율 0%, 평균 응답시간 52.5ms이고 APM이 본 요청은 342입니다." loading="lazy">
+<figure class="fig-figure">
+  <div class="fig" data-fig="ua-block" role="group" aria-label="같은 시험을 두 번 돌린 결과를 비교하는 두 카드입니다. 기본 User-Agent로는 TPS 40,574, 실패율 100%, 평균 응답시간 0.1ms이고 APM이 본 요청은 0입니다. 시험용으로 허용한 User-Agent로는 TPS 57, 실패율 0%, 평균 응답시간 52.5ms이고 APM이 본 요청은 342입니다."></div>
   <figcaption>같은 시험을 막힌 경우와 허용된 경우로 돌린 결과 (실험, 6초, 막는 규칙은 가정)</figcaption>
 </figure>
 
@@ -244,11 +234,8 @@ export const options = {
 
 응답을 받은 뒤 스크립트가 CPU를 4ms씩 쓰도록(체크나 파싱, 암호화 같은 일을 흉내) 하고, 초당 요청 수 목표를 1,000에서 3,600까지 올려 봤습니다. 서버는 20ms 일하는 가짜 서버입니다.
 
-<figure class="search-figure">
-  <picture>
-    <source srcset="{{ '/assets/loadgen-notes/generator-still.png' | relative_url }}" media="(prefers-reduced-motion: reduce)">
-    <img src="{{ '/assets/loadgen-notes/generator.gif' | relative_url }}" width="1080" height="640" alt="가로축은 목표 TPS 1,000에서 3,600입니다. 서버가 일한 시간의 p95를 나타내는 파란 선은 20ms에서 24ms로 거의 평평합니다. k6가 잰 응답시간의 p95를 나타내는 빨간 선은 목표 2,800까지는 파란 선과 붙어 있다가 3,200에서 93ms, 3,600에서 191ms로 치솟고, 목표 3,600에서는 시작하지 못한 요청이 3,148건입니다." loading="lazy">
-  </picture>
+<figure class="fig-figure">
+  <div class="fig" data-fig="generator" role="group" aria-label="가로축은 목표 TPS 1,000에서 3,600입니다. 서버가 일한 시간의 p95를 나타내는 파란 선은 20ms에서 24ms로 거의 평평합니다. k6가 잰 응답시간의 p95를 나타내는 빨간 선은 목표 2,800까지는 파란 선과 붙어 있다가 3,200에서 93ms, 3,600에서 191ms로 치솟고, 목표 3,600에서는 시작하지 못한 요청이 3,148건입니다."></div>
   <figcaption>목표 TPS를 올렸을 때 k6가 잰 응답시간과 서버가 일한 시간 (실험, p95)</figcaption>
 </figure>
 
@@ -268,8 +255,8 @@ export const options = {
 
 여기까지 본 원인을 부하를 거는 위치별로 정리하면 이렇습니다.
 
-<figure class="search-figure">
-  <img src="{{ '/assets/loadgen-notes/coverage.png' | relative_url }}" width="1080" height="700" alt="표입니다. 행은 서버 처리 한계, 로드밸런서와 TLS 처리 한계, 방화벽과 WAF의 검사 지연과 속도 제한, 봇과 매크로 차단, 인터넷 구간 대역폭과 거리, 부하발생기 자체의 한계입니다. 열은 WAS에 바로, 내부 로드밸런서를 거쳐, 외부망 실제 경로입니다. 서버 처리 한계는 세 곳 모두에서 드러나고, 로드밸런서와 TLS는 내부 로드밸런서와 외부망에서, 나머지 네 가지는 외부망 실제 경로에서만 드러납니다. 부하발생기의 한계는 어디서든 생깁니다." loading="lazy">
+<figure class="fig-figure">
+  <div class="fig" data-fig="coverage" role="group" aria-label="표입니다. 행은 서버 처리 한계, 로드밸런서와 TLS 처리 한계, 방화벽과 WAF의 검사 지연과 속도 제한, 봇과 매크로 차단, 인터넷 구간 대역폭과 거리, 부하발생기 자체의 한계입니다. 열은 WAS에 바로, 내부 로드밸런서를 거쳐, 외부망 실제 경로입니다. 서버 처리 한계는 세 곳 모두에서 드러나고, 로드밸런서와 TLS는 내부 로드밸런서와 외부망에서, 나머지 네 가지는 외부망 실제 경로에서만 드러납니다. 부하발생기의 한계는 어디서든 생깁니다."></div>
   <figcaption>부하를 거는 위치별로 시험에서 드러나는 문제 (모식도, 흔한 구성을 가정)</figcaption>
 </figure>
 
@@ -286,8 +273,8 @@ WAS에 바로 쏘는 시험은 서버 처리 한계만 보여줍니다. 장비�
 
 지금까지의 내용을 한 장으로 정리하면 이렇습니다. k6에서 이렇게 보이면 이쪽을 먼저 의심합니다.
 
-<figure class="search-figure">
-  <img src="{{ '/assets/loadgen-notes/triage.png' | relative_url }}" width="1080" height="780" alt="k6에서 보이는 현상과 먼저 의심할 곳을 짝지은 일곱 줄의 표입니다. blocked, connecting, tls가 크고 duration이 정상이면 새 연결을 처리하는 곳입니다. sending이 크면 올리는 쪽 회선입니다. waiting이 크고 서버 시간이 작으면 중간 장비와 왕복 시간이고, 서버 시간도 크면 서버 자체입니다. receiving이 크고 waiting이 일정하면 내려받는 회선과 응답 크기입니다. 실패율이 오르고 응답시간과 APM 요청 수가 줄면 장비의 차단과 제한입니다. 모든 구간이 같이 늘고 dropped_iterations가 생기면 부하발생기의 자원입니다." loading="lazy">
+<figure class="fig-figure">
+  <div class="fig" data-fig="triage" role="group" aria-label="k6에서 보이는 현상과 먼저 의심할 곳을 짝지은 일곱 줄의 표입니다. blocked, connecting, tls가 크고 duration이 정상이면 새 연결을 처리하는 곳입니다. sending이 크면 올리는 쪽 회선입니다. waiting이 크고 서버 시간이 작으면 중간 장비와 왕복 시간이고, 서버 시간도 크면 서버 자체입니다. receiving이 크고 waiting이 일정하면 내려받는 회선과 응답 크기입니다. 실패율이 오르고 응답시간과 APM 요청 수가 줄면 장비의 차단과 제한입니다. 모든 구간이 같이 늘고 dropped_iterations가 생기면 부하발생기의 자원입니다."></div>
   <figcaption>k6와 APM 숫자가 다를 때 먼저 볼 곳 (정리)</figcaption>
 </figure>
 

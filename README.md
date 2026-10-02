@@ -22,6 +22,7 @@ description: 목록에 보일 짧은 소개.
 Markdown으로 자유롭게 작성하세요.
 ```
 
+- 글 속 그림은 브라우저가 그리는 SVG 애니메이션/정지 그림입니다. 만드는 방법은 [그림 지침](docs/figure-runtime.md)에 있습니다(예시 데이터는 `scripts/figure_data/`, 그림 정의는 `assets/figures/`, 글에는 `<div class="fig" data-fig="이름">`만 둡니다).
 - 주제는 `개발`, `일상`, `생각`, `취향`, `배움` 중에서 선택합니다. `_config.yml`의 `topics`에서 바꿀 수 있습니다.
 - 목록은 제목의 가나다순입니다. 날짜나 발행 순서를 관리할 필요가 없습니다.
 - 글을 저장하고 `main` 브랜치에 push하면 발행됩니다.

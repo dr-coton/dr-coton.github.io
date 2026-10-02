@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>figure bench</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/style.css">
+<link rel="stylesheet" href="../../assets/figures.css">
+<style>
+  body { padding: 16px; background: #fafaf6; }
+  .cell { margin: 0 0 18px; }
+  .cell small { display: block; margin-bottom: 4px; color: #73796f; font: 11px var(--mono); }
+  .cats { display: none !important; }
+  *, *::before, *::after { transition: none !important; animation: none !important; }  /* 캡처할 때 전환 도중 모습이 찍히지 않게 */
+</style></head>
+<body>
+<!-- 그림 점검용 화면. Jekyll 서버 없이 파일로 연다: scripts/figure_bench/shot.sh "name=percentile,architecture&t=0,2000,end&w=660" 출력.png  (t: 그림을 세울 시각(ms)·end·auto6, w: 글 폭(px), name=all 이면 모든 그림) -->
+<div id="bench"></div>
+<script src="../../assets/figures.js"></script>
+<script>
+  var MODULES = ['perf-data', 'perf', 'search-data', 'search2-data', 'search-common', 'search-1', 'search-2', 'loadgen-data', 'loadgen1-data', 'loadgen2-data', 'loadgen-common', 'loadgen-1', 'loadgen-2'];
+  var q = new URLSearchParams(location.search), w = +(q.get('w') || 660), times = (q.get('t') || 'end').split(',');
+  var errors = [];
+  addEventListener('error', function (e) { errors.push('오류: ' + e.message + ' (' + (e.filename || '').split('/').pop() + ':' + e.lineno + ')'); });
+  var bench = document.getElementById('bench');
+  Promise.all(MODULES.map(function (m) {
+    return new Promise(function (res) { var s = document.createElement('script'); s.src = '../../assets/figures/' + m + '.js?' + Date.now(); s.onload = s.onerror = res; document.head.appendChild(s); });
+  })).then(function () {
+    var names = q.get('name') === 'all' || !q.get('name') ? Object.keys(Figures.defs) : q.get('name').split(',');
+    function add(name, t) {
+      var cell = document.createElement('div'); cell.className = 'cell'; cell.style.width = w + 'px';
+      cell.innerHTML = '<small>' + name + ' @ ' + t + '</small><div class="fig" data-fig="' + name + '" data-freeze="' + t + '"></div>';
+      bench.appendChild(cell);
+    }
+    names.forEach(function (name) {
+      var list = times;
+      if (/^auto\d+$/.test(times[0])) {  // t=auto6: 처음부터 끝까지 고르게 6장면 (끝 포함)
+        var n = +times[0].slice(4), probe = document.createElement('div');
+        probe.className = 'fig'; probe.setAttribute('data-fig', name); probe.setAttribute('data-freeze', 'end'); probe.style.width = w + 'px'; probe.style.position = 'absolute'; probe.style.visibility = 'hidden';
+        document.body.appendChild(probe); Figures.scanNow();
+        var dur = probe.__fig ? probe.__fig.ctl.duration : 0; probe.remove();
+        list = []; for (var i = 0; i < n; i++) list.push(i === n - 1 ? 'end' : Math.round(dur * i / (n - 1)));
+        errors.push('정보: ' + name + ' 길이 ' + dur + 'ms');
+      }
+      list.forEach(function (t) { add(name, t); });
+    });
+    Figures.scan();
+    setTimeout(function () {
+      document.querySelectorAll('.fig[data-fig]:not([data-ready])').forEach(function (h) { errors.push('그려지지 않음: ' + h.getAttribute('data-fig') + ' (정의나 데이터, needs가 없음?)'); });
+      if (errors.length) { var pre = document.createElement('pre'); pre.style.cssText = 'color:#be5a43;font:12px var(--mono);white-space:pre-wrap'; pre.textContent = errors.join('\n'); bench.prepend(pre); }
+      document.title = 'ready';
+    }, 600);
+  });
+</script>
+</body></html>

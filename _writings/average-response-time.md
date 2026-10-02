@@ -5,7 +5,8 @@ topic: 개발
 description: 평균 응답시간과 TPS만 보고 합격시킨 성능테스트가 놓치는 것들...
 ---
 
-<link rel="stylesheet" href="{{ '/assets/search-notes.css' | relative_url }}">
+<script src="{{ '/assets/figures/perf-data.js' | relative_url }}"></script>
+<script src="{{ '/assets/figures/perf.js' | relative_url }}"></script>
 
 가정해 볼까요? 결제 API를 출시하기 전에 성능테스트를 했고, 보고서에는 이렇게 적혀 있습니다.
 
@@ -25,11 +26,8 @@ description: 평균 응답시간과 TPS만 보고 합격시킨 성능테스트�
 
 요청을 100건씩 받은 서비스 A와 B를 비교해 보겠습니다. 평균 응답시간은 둘 다 200ms입니다. 평균은 모든 응답시간을 더해서 요청 수로 나눈 값이에요. 아래 그림은 응답시간 산점도입니다. 점 하나가 요청 한 건이고, 가로는 요청이 끝난 시각, 세로는 그 요청의 응답시간이에요. 초록 선은 그때까지 끝난 요청의 평균입니다.
 
-<figure class="search-figure">
-  <picture>
-    <source srcset="{{ '/assets/perf-notes/same-mean-still.png' | relative_url }}" media="(prefers-reduced-motion: reduce)">
-    <img src="{{ '/assets/perf-notes/same-mean.gif' | relative_url }}" width="1080" height="780" alt="서비스 A와 B의 응답시간 산점도입니다. 가로는 요청이 끝난 시각 0초에서 60초, 세로는 응답시간이고, 요청이 끝날 때마다 점이 찍히며 초록 평균 선이 이어집니다. A의 점은 400ms 아래 띠에 모여 있고 평균 선은 200ms 근처에서 거의 평평합니다. B의 점은 대부분 200ms 아래 바닥에 붙어 있고 네 개만 2,000ms 넘는 높이에 떠 있으며, 평균 선은 그 점이 찍힐 때마다 계단처럼 올랐다가 200ms로 끝납니다. 마지막에 500ms 선이 그어지고, 500ms를 넘는 요청은 A가 0건 B가 4건이며 B의 네 점은 빨간색으로 바뀝니다." loading="lazy">
-  </picture>
+<figure class="fig-figure">
+  <div class="fig" data-fig="same-mean" role="group" aria-label="서비스 A와 B의 응답시간 산점도입니다. 가로는 요청이 끝난 시각 0초에서 60초, 세로는 응답시간이고, 요청이 끝날 때마다 점이 찍히며 초록 평균 선이 이어집니다. A의 점은 400ms 아래 띠에 모여 있고 평균 선은 200ms 근처에서 거의 평평합니다. B의 점은 대부분 200ms 아래 바닥에 붙어 있고 네 개만 2,000ms 넘는 높이에 떠 있으며, 평균 선은 그 점이 찍힐 때마다 계단처럼 올랐다가 200ms로 끝납니다. 마지막에 500ms 선이 그어지고, 500ms를 넘는 요청은 A가 0건 B가 4건이며 B의 네 점은 빨간색으로 바뀝니다."></div>
   <figcaption>같은 평균을 가진 두 서비스의 응답시간 산점도 (요청 100건, 예시 데이터)</figcaption>
 </figure>
 
@@ -47,11 +45,8 @@ description: 평균 응답시간과 TPS만 보고 합격시킨 성능테스트�
 
 서비스 B의 요청 100건을 빠른 순서로 세워서 p50, p95, p99를 짚어 보겠습니다.
 
-<figure class="search-figure">
-  <picture>
-    <source srcset="{{ '/assets/perf-notes/percentile-still.png' | relative_url }}" media="(prefers-reduced-motion: reduce)">
-    <img src="{{ '/assets/perf-notes/percentile.gif' | relative_url }}" width="1080" height="640" alt="서비스 B의 요청 100건이 빠른 순서로 막대 100개로 서 있습니다. 앞쪽 96개는 200ms보다 낮고 맨 오른쪽 4개만 2,085ms에서 2,527ms로 높습니다. 표시가 50번째에서 105ms, 95번째에서 186ms, 99번째에서 2,421ms를 차례로 가리키며 그 안에 들어오는 막대가 진하게 칠해집니다." loading="lazy">
-  </picture>
+<figure class="fig-figure">
+  <div class="fig" data-fig="percentile" role="group" aria-label="서비스 B의 요청 100건이 빠른 순서로 막대 100개로 서 있습니다. 앞쪽 96개는 200ms보다 낮고 맨 오른쪽 4개만 2,085ms에서 2,527ms로 높습니다. 표시가 50번째에서 105ms, 95번째에서 186ms, 99번째에서 2,421ms를 차례로 가리키며 그 안에 들어오는 막대가 진하게 칠해집니다."></div>
   <figcaption>서비스 B의 요청 100건을 빠른 순서로 세운 모양 (예시 데이터)</figcaption>
 </figure>
 
@@ -78,11 +73,8 @@ p99가 느려도 요청의 1%뿐이니 괜찮지 않을까요? 사용자가 요�
 
 호출 하나가 느릴 확률이 1%이고 호출끼리 서로 영향을 주지 않는다고 가정하면, 호출이 N개일 때 하나라도 느릴 확률은 1 − 0.99^N입니다. 호출이 1개면 1%, 10개면 9.6%, 100개면 63.4%예요.
 
-<figure class="search-figure">
-  <picture>
-    <source srcset="{{ '/assets/perf-notes/fanout-still.png' | relative_url }}" media="(prefers-reduced-motion: reduce)">
-    <img src="{{ '/assets/perf-notes/fanout.gif' | relative_url }}" width="1080" height="630" alt="화면 100번을 연 결과를 칸 100개로 나타낸 줄이 세 개 있습니다. 호출이 1개인 줄은 느린 화면을 뜻하는 빨간 칸이 1개, 호출이 10개인 줄은 10개, 호출이 100개인 줄은 63개입니다. 각 줄 아래에 1 − 0.99의 N제곱 계산 값 1.0%, 9.6%, 63.4%가 적혀 있습니다." loading="lazy">
-  </picture>
+<figure class="fig-figure">
+  <div class="fig" data-fig="fanout" role="group" aria-label="화면 100번을 연 결과를 칸 100개로 나타낸 줄이 세 개 있습니다. 호출이 1개인 줄은 느린 화면을 뜻하는 빨간 칸이 1개, 호출이 10개인 줄은 10개, 호출이 100개인 줄은 63개입니다. 각 줄 아래에 1 − 0.99의 N제곱 계산 값 1.0%, 9.6%, 63.4%가 적혀 있습니다."></div>
   <figcaption>화면 100번을 열었을 때 느린 화면의 기댓값 (호출 하나가 느릴 확률 1%, 기댓값으로 칠한 모식도)</figcaption>
 </figure>
 
@@ -96,11 +88,8 @@ p99가 느려도 요청의 1%뿐이니 괜찮지 않을까요? 사용자가 요�
 
 시뮬레이션은 이렇게 만들었습니다. 서버는 한 대이고 요청 하나를 평균 0.8ms(처리 시간은 평균이 0.8ms인 난수)에 처리하므로 최대 약 1,250 TPS를 낼 수 있습니다. VU는 응답을 받으면 1초 쉬고 다음 요청을 보냅니다. VU를 125부터 2,500까지 올리면서 TPS, 평균 응답시간, p99를 쟀어요.
 
-<figure class="search-figure">
-  <picture>
-    <source srcset="{{ '/assets/perf-notes/vu-sweep-still.png' | relative_url }}" media="(prefers-reduced-motion: reduce)">
-    <img src="{{ '/assets/perf-notes/vu-sweep.gif' | relative_url }}" width="1080" height="700" alt="가로축은 VU 수 125에서 2,500이고, 위쪽 그래프의 TPS는 VU에 비례해 늘다가 1,250 근처에서 꺾여 1,262에서 멈춥니다. 아래쪽 그래프의 평균 응답시간과 p99는 VU 1,250까지 거의 0에 붙어 있다가 1,375부터 직선으로 올라 VU 2,500에서 평균 984ms, p99 1,074ms가 됩니다. VU 1,125에서는 TPS 1,117에 p99 30ms, VU 1,250에서는 TPS 1,225에 p99 65ms입니다." loading="lazy">
-  </picture>
+<figure class="fig-figure">
+  <div class="fig" data-fig="vu-sweep" role="group" aria-label="가로축은 VU 수 125에서 2,500이고, 위쪽 그래프의 TPS는 VU에 비례해 늘다가 1,250 근처에서 꺾여 1,262에서 멈춥니다. 아래쪽 그래프의 평균 응답시간과 p99는 VU 1,250까지 거의 0에 붙어 있다가 1,375부터 직선으로 올라 VU 2,500에서 평균 984ms, p99 1,074ms가 됩니다. VU 1,125에서는 TPS 1,117에 p99 30ms, VU 1,250에서는 TPS 1,225에 p99 65ms입니다."></div>
   <figcaption>VU를 늘렸을 때의 TPS와 응답시간 (단일 서버 시뮬레이션, 예시 값)</figcaption>
 </figure>
 
@@ -122,11 +111,8 @@ VU를 1,250에서 2,500으로 두 배 늘렸더니 TPS는 3%밖에 늘지 않았
 
 앞 절과는 다른 서버로, VU 180개가 쉬지 않고 요청하는 시험을 가정하겠습니다. 이 시험에서는 TPS가 VU 수를 평균 응답시간(초)으로 나눈 값이 됩니다. VU 하나가 1초에 보내는 요청이 1 ÷ 평균 응답시간(초)건이기 때문이에요. 오류가 없으면 평균이 200ms라서 180 ÷ 0.2 = 900 TPS입니다. 목표 1,000에 못 미치죠. 오류 응답 비율을 0%에서 30%까지 올려 보겠습니다.
 
-<figure class="search-figure">
-  <picture>
-    <source srcset="{{ '/assets/perf-notes/error-fast-still.png' | relative_url }}" media="(prefers-reduced-motion: reduce)">
-    <img src="{{ '/assets/perf-notes/error-fast.gif' | relative_url }}" width="1080" height="600" alt="오류 응답 비율이 0%에서 30%로 늘어나는 동안 막대 네 개가 변합니다. 평균 응답시간은 200ms에서 143ms로 줄어 목표 300ms 안에 계속 있습니다. TPS는 900에서 1,259로 늘어 오류 약 10.5%부터 목표 1,000을 넘고, 평균과 TPS만 보면 불합격이던 판정이 합격으로 바뀝니다. 성공한 요청만 센 TPS는 900에서 881로 줄어 목표를 계속 넘지 못합니다." loading="lazy">
-  </picture>
+<figure class="fig-figure">
+  <div class="fig" data-fig="error-fast" role="group" aria-label="오류 응답 비율이 0%에서 30%로 늘어나는 동안 막대 네 개가 변합니다. 평균 응답시간은 200ms에서 143ms로 줄어 목표 300ms 안에 계속 있습니다. TPS는 900에서 1,259로 늘어 오류 약 10.5%부터 목표 1,000을 넘고, 평균과 TPS만 보면 불합격이던 판정이 합격으로 바뀝니다. 성공한 요청만 센 TPS는 900에서 881로 줄어 목표를 계속 넘지 못합니다."></div>
   <figcaption>오류 응답 비율을 올렸을 때의 지표 변화 (VU 180개, 성공 200ms, 오류 10ms 가정)</figcaption>
 </figure>
 
@@ -145,11 +131,8 @@ VU를 1,250에서 2,500으로 두 배 늘렸더니 TPS는 3%밖에 늘지 않았
 
 30초 시험 중 10초부터 15초까지 서버가 5초 멈춘다고 가정해 보겠습니다. 목표는 초당 10건이고, 정상일 때 응답은 50ms입니다. 같은 서버를 두 방식으로 재면 어떻게 다를까요?
 
-<figure class="search-figure">
-  <picture>
-    <source srcset="{{ '/assets/perf-notes/omission-still.png' | relative_url }}" media="(prefers-reduced-motion: reduce)">
-    <img src="{{ '/assets/perf-notes/omission.gif' | relative_url }}" width="1080" height="760" alt="서버가 10초부터 15초까지 멈춥니다. 응답 대기 방식은 10초에 보낸 요청 한 건만 5초 넘게 걸린 높은 막대로 남고, 멈춘 동안 보내지 못한 요청 49건은 기록이 없습니다. 시각 고정 방식은 멈춘 동안에도 0.1초마다 요청이 들어와 5초에서 0.15초로 줄어드는 막대 50개가 이어집니다. 결과는 응답 대기 방식이 251건에 평균 70ms, p99 50ms이고 시각 고정 방식이 300건에 평균 475ms, p99 4,750ms입니다." loading="lazy">
-  </picture>
+<figure class="fig-figure">
+  <div class="fig" data-fig="omission" role="group" aria-label="서버가 10초부터 15초까지 멈춥니다. 응답 대기 방식은 10초에 보낸 요청 한 건만 5초 넘게 걸린 높은 막대로 남고, 멈춘 동안 보내지 못한 요청 49건은 기록이 없습니다. 시각 고정 방식은 멈춘 동안에도 0.1초마다 요청이 들어와 5초에서 0.15초로 줄어드는 막대 50개가 이어집니다. 결과는 응답 대기 방식이 251건에 평균 70ms, p99 50ms이고 시각 고정 방식이 300건에 평균 475ms, p99 4,750ms입니다."></div>
   <figcaption>같은 5초 멈춤을 두 방식으로 잰 결과 (모델로 계산한 예시, 막대 하나 = 요청 1건)</figcaption>
 </figure>
 
@@ -165,8 +148,8 @@ p99를 쓰라고 했지만 p99에도 한계가 있습니다. 요청이 100건이
 
 서비스 B처럼 느린 요청이 4%인 서비스를 요청 수만 바꿔서 시험 200번씩 반복해 봤습니다. 시뮬레이션이고, 점 하나가 시험 한 번의 p99입니다.
 
-<figure class="search-figure">
-  <img src="{{ '/assets/perf-notes/p99-noise.png' | relative_url }}" width="1080" height="600" alt="요청 100건, 1,000건, 10,000건으로 시험을 200번씩 반복해 잰 p99를 점으로 나타낸 그림입니다. 요청 100건에서는 점이 1,600ms에서 2,900ms까지 넓게 퍼지고 22개는 200ms 안팎으로 내려앉아 p99 500ms 미만이 22번입니다. 1,000건에서는 점이 2,200ms에서 2,700ms에 모이고, 10,000건에서는 2,500ms 근처의 좁은 띠가 됩니다. 두 경우 모두 500ms 미만은 0번입니다." loading="lazy">
+<figure class="fig-figure">
+  <div class="fig" data-fig="p99-noise" role="group" aria-label="요청 100건, 1,000건, 10,000건으로 시험을 200번씩 반복해 잰 p99를 점으로 나타낸 그림입니다. 요청 100건에서는 점이 1,600ms에서 2,900ms까지 넓게 퍼지고 22개는 200ms 안팎으로 내려앉아 p99 500ms 미만이 22번입니다. 1,000건에서는 점이 2,200ms에서 2,700ms에 모이고, 10,000건에서는 2,500ms 근처의 좁은 띠가 됩니다. 두 경우 모두 500ms 미만은 0번입니다."></div>
   <figcaption>같은 서비스를 요청 수만 바꿔 200번씩 잰 p99 (시뮬레이션)</figcaption>
 </figure>
 
