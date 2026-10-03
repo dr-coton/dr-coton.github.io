@@ -15,6 +15,10 @@ layout: default
     <p id="writing-count" aria-live="polite" aria-atomic="true">{{ site.writings.size }}편의 글</p>
   </div>
   {% if site.writings.size > 0 %}
+  <form class="writing-search" role="search" aria-label="글 검색">
+    <label for="writing-search">글 검색</label>
+    <input id="writing-search" type="search" name="q" autocomplete="off" placeholder="제목, 내용, 주제로 검색">
+  </form>
   <div class="filters" data-filters hidden role="group" aria-label="글 주제 선택">
     <button type="button" data-filter="all" aria-pressed="true">전체</button>
     {% for topic in site.topics %}<button type="button" data-filter="{{ topic | escape }}" aria-pressed="false">{{ topic }}</button>{% endfor %}
@@ -22,7 +26,8 @@ layout: default
   <div class="writing-grid">
     {% assign writings = site.writings | sort: 'title' %}
     {% for writing in writings %}
-    <article class="writing-card{% if writing.thumb %} has-thumb{% endif %}" data-topic="{{ writing.topic | escape }}">
+    {% assign search_text = writing.title | append: ' ' | append: writing.topic | append: ' ' | append: writing.description | normalize_whitespace %}
+    <article class="writing-card{% if writing.thumb %} has-thumb{% endif %}" data-topic="{{ writing.topic | escape }}" data-url="{{ writing.url | relative_url }}" data-search="{{ search_text | escape }}">
       <a href="{{ writing.url | relative_url }}" class="writing-card-link">
         {% if writing.thumb %}<img class="thumb" src="{{ writing.thumb | relative_url }}" width="1200" height="800" alt="" loading="lazy">{% endif %}
         <span class="topic">{{ writing.topic | escape }}</span>
@@ -32,6 +37,7 @@ layout: default
     </article>
     {% endfor %}
   </div>
+  <p class="empty-search" data-empty-search hidden>찾은 글이 없습니다.</p>
   {% else %}
   <p class="collection-note">아직 글이 없습니다.</p>
   {% endif %}

@@ -1,0 +1,39 @@
+{% assign page_title = page.title | default: site.title %}
+{% assign page_description = page.description | default: site.description %}
+{% if page.layout == 'writing' %}
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": {{ page_title | jsonify }},
+        "description": {{ page_description | jsonify }},
+        "url": {{ page.url | absolute_url | jsonify }},
+        "mainEntityOfPage": {{ page.url | absolute_url | jsonify }},
+        "author": {
+          "@type": "Person",
+          "name": {{ site.author | jsonify }}
+        },
+        "publisher": {
+          "@type": "Person",
+          "name": {{ site.author | jsonify }}
+        },
+        "image": {{ page.thumb | default: '/assets/watercolor.png' | absolute_url | jsonify }},
+        "inLanguage": {{ site.lang | jsonify }}
+      }
+    </script>
+{% else %}
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Blog",
+        "name": {{ site.title | jsonify }},
+        "description": {{ site.description | jsonify }},
+        "url": {{ site.url | jsonify }},
+        "author": {
+          "@type": "Person",
+          "name": {{ site.author | jsonify }}
+        },
+        "inLanguage": {{ site.lang | jsonify }}
+      }
+    </script>
+{% endif %}
