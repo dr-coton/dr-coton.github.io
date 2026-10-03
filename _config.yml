@@ -4,6 +4,8 @@ description: 꼬똥(꼬박사)의 블로그. AI와 소프트웨어 개발, 성�
 url: https://dr-coton.com
 baseurl: ""
 lang: ko
+google_analytics_id: G-TQV27JTKY7
+google_site_verification:
 plugins:
   - jekyll-sitemap  # /sitemap.xml, /robots.txt (GitHub Pages 기본 지원)
 markdown: kramdown

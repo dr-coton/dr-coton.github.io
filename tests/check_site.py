@@ -42,6 +42,8 @@ for source in sources:
 assert Page((output / "index.html").read_text()).cards == len(sources), "Missing writing in the index"
 pages = list(output.rglob("*.html"))
 for path in pages:
+    if path.name.startswith("google") and "google-site-verification:" in path.read_text():
+        continue
     page = Page(path.read_text())
     assert page.has_main, f"Missing main landmark: {path}"
     assert not page.has_date, f"Visible date metadata: {path}"

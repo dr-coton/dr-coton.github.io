@@ -33,6 +33,23 @@ Markdown으로 자유롭게 작성하세요.
 
 저장소 **Settings → Pages → Build and deployment**에서 **Deploy from a branch**, **main**, **/(root)**를 선택하면 `https://dr-coton.com`(저장소의 `CNAME` 파일)으로 발행됩니다. [GitHub 공식 안내](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site)
 
+## GA4와 Search Console
+
+`_config.yml`의 아래 값을 채우면 모든 페이지의 `<head>`에 자동으로 들어갑니다.
+
+```yml
+google_analytics_id: G-XXXXXXXXXX
+google_site_verification: 검색 콘솔 HTML 태그의 content 값
+```
+
+- GA4: Google Analytics에서 웹 데이터 스트림을 만들고 측정 ID(`G-`로 시작)를 `google_analytics_id`에 넣습니다. UTM은 링크 끝에 `?utm_source=threads&utm_medium=social&utm_campaign=...`처럼 붙이면 GA4에서 유입별로 나뉩니다.
+- Search Console: `https://dr-coton.com` 속성을 만들고 HTML 태그 방식의 `content="..."` 값만 `google_site_verification`에 넣습니다. sitemap은 `jekyll-sitemap`이 `https://dr-coton.com/sitemap.xml`로 만듭니다.
+- PageSpeed Insights: 연결은 필요 없고 배포 뒤 모바일부터 검사합니다.
+
+```sh
+open "https://pagespeed.web.dev/analysis?url=https%3A%2F%2Fdr-coton.com"
+```
+
 ## 로컬 미리보기
 
 Ruby와 Bundler가 설치된 환경에서:
