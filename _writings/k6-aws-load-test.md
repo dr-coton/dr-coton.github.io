@@ -1,4 +1,5 @@
 ---
+thumb: /assets/thumbs/k6-aws-load-test.jpg
 title: k6와 AWS로 수백 대에서 부하 보내기
 topic: 개발
 description: JMeter를 쓰다가 k6에서 더 많은 부하를 보낼 수 있었던 경험을 바탕으로, AWS CLI와 SSH로 수백 대를 실행하는 구성을 살펴봅니다. 1~3시간짜리 시험에 드는 서버 비용과 전송료도 계산합니다.
