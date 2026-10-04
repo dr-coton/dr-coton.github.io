@@ -30,7 +30,10 @@ class Page(HTMLParser):
 
 root = Path(__file__).resolve().parents[1]
 output = Path(sys.argv[1]) if len(sys.argv) > 1 else root / "_site"  # 빌드 위치를 따로 지정할 수 있다
-sources = list((root / "_writings").glob("*.md"))
+# 미발행 글은 일반 빌드에서 빠지고 --unpublished 미리보기에서만 포함된다.
+sources = [source for source in (root / "_writings").glob("*.md")
+           if not re.search(r"^published:\s*false\s*$", source.read_text().split("---", 2)[1], re.M)
+           or (output / "writing" / source.stem / "index.html").is_file()]
 for source in sources:
     front_matter = source.read_text().split("---", 2)[1]
     assert not any(line.split(":", 1)[0].strip() == "date" for line in front_matter.splitlines()), source

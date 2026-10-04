@@ -16,7 +16,7 @@
 <div id="bench"></div>
 <script src="../../assets/figures.js"></script>
 <script>
-  var MODULES = ['perf-data', 'perf', 'search-data', 'search2-data', 'search-common', 'search-1', 'search-2', 'loadgen-data', 'loadgen1-data', 'loadgen2-data', 'loadgen-common', 'loadgen-1', 'loadgen-2'];
+  var MODULES = ['perf-data', 'perf', 'search-data', 'search2-data', 'search-common', 'search-1', 'search-2', 'loadgen-data', 'loadgen1-data', 'loadgen2-data', 'loadgen-common', 'loadgen-1', 'loadgen-2', 'fleet-data', 'fleet'];
   var q = new URLSearchParams(location.search), w = +(q.get('w') || 660), times = (q.get('t') || 'end').split(',');
   var errors = [];
   addEventListener('error', function (e) { errors.push('오류: ' + e.message + ' (' + (e.filename || '').split('/').pop() + ':' + e.lineno + ')'); });
