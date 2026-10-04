@@ -399,16 +399,16 @@
    * 단가(Modal T4, Voyage, Pinecone)와 가정은 scripts/figure_data/search2.py에 있고, 본문 숫자와 맞는지 거기서 assert로 확인한다.
    * 제목 막대 아래 줄과 해설은 그 데이터에서 만든다(데이터가 준비된 뒤에 그려지므로 접근자로 읽는다). */
   F.define('cost', {
-    title: '한 달에 드는 비용',
+    title: '가정에 따른 사용료 비교',
     get meta() { var k = F.data.search2.cost; return '예시: 상품 ' + K.fmt(k.products) + '개 · 검색어 검색 월 ' + K.fmt(k.searches) + '번'; },
-    get say() { var k = F.data.search2.cost; return ['직접 만든 구성의 추가 비용: 첫 등록 ' + money(k.first) + ', 그 뒤 월 ' + money(k.query_month), 'ok']; },
+    get say() { var k = F.data.search2.cost; return ['GPU·임베딩 API 사용료: 첫 등록 ' + money(k.first) + ', 이후 월 ' + money(k.query_month), 'ok']; },
     data: 'search2',
     height: 406,
     still: true,
     timeline: function (K_, D) {
       var k = D.cost, X0 = 470, SCALE = 340 / k.gpu_month;  // 가장 긴 막대(GPU 한 달)가 340이 되게 한다
       var groups = [
-        ['흔히 떠올리는 구성', P.TEXT, P.SOFT, 46, [['GPU 한 장 24시간 (T4)', P.RED, k.gpu_month, '월'], ['벡터 DB (Pinecone Standard)', mix(P.RED, P.BG, .45), k.pinecone, '월']]],
+        ['비교용 구성', P.TEXT, P.SOFT, 46, [['GPU 한 장 상시 운영 (T4)', P.RED, k.gpu_month, '월'], ['벡터 DB (Pinecone Standard)', mix(P.RED, P.BG, .45), k.pinecone, '월']]],
         ['직접 만든 구성', P.BLUE, P.BLUE_BG, 240, [['검색어 → 벡터 (Voyage)', P.BLUE, k.query_month, '월'], ['첫 등록 (사진 + 상품명)', P.PURPLE, k.first, '한 번']]]
       ];
       return [hold(1, function () {
