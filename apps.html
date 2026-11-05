@@ -1,0 +1,33 @@
+---
+layout: default
+title: 앱
+description: (주)코드블랙(Code Black Inc.)이 만든 앱 글편과 모고미 색칠놀이를 소개합니다.
+permalink: /apps/
+---
+<article class="reading-page apps-page">
+  <h1>앱</h1>
+  <p class="apps-lead">(주)코드블랙(Code Black Inc.)에서 만든 앱입니다. 앱 사용 중 궁금한 점은 각 앱의 지원 페이지나 <a href="mailto:dr.coton@gmail.com">dr.coton@gmail.com</a>으로 문의해 주세요.</p>
+  {% for app in site.data.apps %}
+  <section class="app-detail" id="{{ app.id }}" aria-labelledby="{{ app.id }}-title">
+    <div class="app-head">
+      <img class="app-icon" src="{{ app.icon | relative_url }}" width="256" height="256" alt="">
+      <div>
+        <h2 id="{{ app.id }}-title">{{ app.name }}</h2>
+        <p class="app-meta">{{ app.category }} · {{ app.platforms }}</p>
+      </div>
+    </div>
+    <p class="app-summary">{{ app.summary }}</p>
+    <ul class="app-points">
+      {% for point in app.points %}<li>{{ point }}</li>
+      {% endfor %}
+    </ul>
+    <p class="app-links">
+      <a href="{{ app.store }}">App Store</a>
+      <a href="{{ app.support }}">지원</a>
+      <a href="{{ app.privacy }}">개인정보 처리방침</a>
+    </p>
+    {% if app.note %}<p class="app-note">{{ app.note }}</p>{% endif %}
+  </section>
+  {% endfor %}
+  <a class="back-link" href="{{ '/' | relative_url }}">글 모음</a>
+</article>

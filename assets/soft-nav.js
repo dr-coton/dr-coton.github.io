@@ -11,7 +11,8 @@
       if (old.src) s.src = old.src; else s.text = old.text;
       old.replaceWith(s);
     });
-    scrollTo(0, 0);
+    const target = location.hash && document.getElementById(decodeURIComponent(location.hash.slice(1)));
+    if (target) target.scrollIntoView(); else scrollTo(0, 0);
     document.querySelector('main').focus({ preventScroll: true });
     dispatchEvent(new Event('softnav'));
   };

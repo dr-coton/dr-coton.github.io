@@ -21,6 +21,29 @@
         "inLanguage": {{ site.lang | jsonify }}
       }
     </script>
+{% elsif page.url == '/apps/' %}
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": {{ page_title | jsonify }},
+        "itemListElement": [{% for app in site.data.apps %}
+          {
+            "@type": "ListItem",
+            "position": {{ forloop.index }},
+            "item": {
+              "@type": "MobileApplication",
+              "name": {{ app.name | jsonify }},
+              "description": {{ app.summary | jsonify }},
+              "url": {{ app.store | jsonify }},
+              "operatingSystem": "iOS",
+              "publisher": { "@type": "Organization", "name": "Code Black Inc." }
+            }
+          }{% unless forloop.last %},{% endunless %}{% endfor %}
+        ],
+        "inLanguage": {{ site.lang | jsonify }}
+      }
+    </script>
 {% else %}
     <script type="application/ld+json">
       {
