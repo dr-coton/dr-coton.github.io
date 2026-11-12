@@ -30,3 +30,18 @@
   news: https://apps.dr-coton.com/ko/mogomi-coloring
   support: https://dr-coton.com/mogomi-coloring-site/
   privacy: https://dr-coton.com/mogomi-coloring-site/privacy.html
+- id: tavelo
+  name: Tavelo
+  category: 컬러링북
+  platforms: iPhone · iPad
+  icon: /assets/apps/tavelo.png
+  summary: 번호 색칠, 채우기, 브러시로 즐기는 어른용 색칠 앱입니다.
+  points:
+    - 생성형 AI로 제작한 도안 100장을 열 개의 방에 담았습니다.
+    - 번호에 맞춰 칠하거나 색을 채우고, 색연필·마커·수채 브러시로 직접 칠할 수 있습니다.
+    - Apple Pencil을 지원하며 완성한 그림을 사진에 저장하거나 공유할 수 있습니다.
+    - 무료 도안과 광고로 여는 도안, 매주 바뀌는 무료 도안을 이용할 수 있습니다. 한 번 구매하면 도안 100장과 광고 없음을 제공합니다.
+  store: https://apps.apple.com/kr/app/id6831458658
+  news: https://apps.dr-coton.com/ko/tavelo
+  support: https://dr-coton.com/tavelo-support/
+  privacy: https://dr-coton.com/tavelo-support/privacy.html
